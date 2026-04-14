@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north,side=west": { "model": "bitsandbalance:block/vertical_step_crack_north_west" },
+    "facing=north,side=east": { "model": "bitsandbalance:block/vertical_step_crack_north_east" },
+    "facing=south,side=west": { "model": "bitsandbalance:block/vertical_step_crack_south_west" },
+    "facing=south,side=east": { "model": "bitsandbalance:block/vertical_step_crack_south_east" }
+  }
+}

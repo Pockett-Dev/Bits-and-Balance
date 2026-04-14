@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "bitsandbalance:displacement" },
+  "reagent": { "item": "minecraft:echo_shard" },
+  "result": { "potion": "bitsandbalance:returning" }
+}

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "entries": [
+    "bitsandbalance:add_mineshaft_bonus",
+    "bitsandbalance:add_stronghold_corridor_bonus",
+    "bitsandbalance:add_stronghold_crossing_bonus",
+    "bitsandbalance:add_ancient_city_bonus",
+    "bitsandbalance:add_end_city_bonus",
+    "bitsandbalance:add_simple_dungeon_bonus",
+    "bitsandbalance:add_woodland_mansion_bonus",
+    "bitsandbalance:add_trial_common_bonus",
+    "bitsandbalance:add_trial_rare_bonus",
+    "bitsandbalance:add_trial_unique_bonus"
+  ]
+}

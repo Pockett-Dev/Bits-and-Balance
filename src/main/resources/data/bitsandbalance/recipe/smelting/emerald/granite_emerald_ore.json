@@ -1,0 +1,11 @@
+{
+    "cookingtime":  200,
+    "experience":  1.2,
+    "result":  {
+                   "id":  "minecraft:emerald"
+               },
+    "ingredient":  "bitsandbalance:granite_emerald_ore",
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "emerald"
+}

@@ -1,0 +1,30 @@
+{
+  "type": "create:crushing",
+  "ingredient": "bitsandbalance:andesite_iron_ore",
+  "processing_time": 200,
+  "results": [
+    {
+      "id": "create:crushed_raw_iron"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:crushed_raw_iron"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:experience_nugget"
+    },
+    {
+      "chance": 0.12,
+      "id": "minecraft:andesite"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ]
+}

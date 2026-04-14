@@ -1,0 +1,31 @@
+{
+  "type": "create:crushing",
+  "ingredient": "bitsandbalance:andesite_lapis_ore",
+  "processing_time": 200,
+  "results": [
+    {
+      "id": "minecraft:lapis_lazuli",
+      "count": 10
+    },
+    {
+      "chance": 0.5,
+      "id": "minecraft:lapis_lazuli"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:experience_nugget"
+    },
+    {
+      "chance": 0.12,
+      "id": "minecraft:andesite"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ]
+}

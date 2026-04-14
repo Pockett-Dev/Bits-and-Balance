@@ -1,0 +1,8 @@
+{
+  "components": {
+    "minecraft:fuel": {
+      "burn_time": 400
+    }
+  }
+}
+

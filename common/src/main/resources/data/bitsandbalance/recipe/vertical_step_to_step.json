@@ -1,0 +1,5 @@
+{
+  "type": "bitsandbalance:step_convert",
+  "category": "building",
+  "direction": "vertical_step_to_step"
+}

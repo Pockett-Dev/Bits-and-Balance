@@ -1,0 +1,31 @@
+{
+  "type": "create:crushing",
+  "ingredient": "bitsandbalance:tuff_redstone_ore",
+  "processing_time": 200,
+  "results": [
+    {
+      "id": "minecraft:redstone",
+      "count": 6
+    },
+    {
+      "chance": 0.5,
+      "id": "minecraft:redstone"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:experience_nugget"
+    },
+    {
+      "chance": 0.12,
+      "id": "minecraft:tuff"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ]
+}

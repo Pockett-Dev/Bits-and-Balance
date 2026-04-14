@@ -1,0 +1,39 @@
+package org.onenonly.bitsandbalance.mixin;
+
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.Equippable;
+import org.onenonly.bitsandbalance.Config;
+import org.onenonly.bitsandbalance.common.client.UsesForCursesClient;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(ItemStack.class)
+public abstract class ItemStackCurseUsesMixin {
+
+    @Inject(
+            method = "get(Lnet/minecraft/core/component/DataComponentType;)Ljava/lang/Object;",
+            at = @At("RETURN"),
+            cancellable = true,
+            require = 0
+    )
+    private void rebalance$hidePumpkinCameraOverlayComponent(
+            DataComponentType<?> componentType,
+            CallbackInfoReturnable<Object> cir
+    ) {
+        if (componentType != DataComponents.EQUIPPABLE) return;
+
+        ItemStack self = (ItemStack) (Object) this;
+        if (!UsesForCursesClient.shouldSuppressEquippableComponent(self, componentType, Config.curseHidePumpkinOverlayOnVanishing)) {
+            return;
+        }
+
+        Object current = cir.getReturnValue();
+        if (current instanceof Equippable equippable) {
+            cir.setReturnValue(UsesForCursesClient.withoutCameraOverlay(equippable));
+        }
+    }
+}

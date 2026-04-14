@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "bitsandbalance:block/goo_splatter",
+    "texture": "bitsandbalance:block/goo_splatter"
+  },
+  "elements": [
+    {
+      "from": [16, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "west": {
+          "texture": "#texture",
+          "uv": [0, 0, 16, 16],
+          "rotation": 270
+        },
+        "east": {
+          "texture": "#texture",
+          "uv": [0, 0, 16, 16],
+          "rotation": 270,
+          "cullface": "east"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:brewing",
+  "input": "minecraft:poison",
+  "reagent": "minecraft:wither_rose",
+  "output": "bitsandbalance:withering"
+}

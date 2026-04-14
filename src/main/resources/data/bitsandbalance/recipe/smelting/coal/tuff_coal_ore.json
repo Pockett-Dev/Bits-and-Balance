@@ -1,0 +1,11 @@
+{
+    "cookingtime":  200,
+    "experience":  0.2,
+    "result":  {
+                   "id":  "minecraft:coal"
+               },
+    "ingredient":  "bitsandbalance:tuff_coal_ore",
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "coal"
+}

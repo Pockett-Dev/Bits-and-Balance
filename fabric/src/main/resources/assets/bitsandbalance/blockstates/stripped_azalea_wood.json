@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "bitsandbalance:block/stripped_azalea_wood_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "bitsandbalance:block/stripped_azalea_wood"
+    },
+    "axis=z": {
+      "model": "bitsandbalance:block/stripped_azalea_wood_horizontal",
+      "x": 90
+    }
+  }
+}

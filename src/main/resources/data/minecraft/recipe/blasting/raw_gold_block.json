@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": "#c:storage_blocks/raw_gold",
+  "result": { "id": "minecraft:gold_block", "count": 1 },
+  "experience": 9.0,
+  "cookingtime": 900
+}
+
+

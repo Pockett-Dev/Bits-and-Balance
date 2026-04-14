@@ -1,0 +1,28 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:crushing",
+  "ingredient": "bitsandbalance:diorite_zinc_ore",
+  "processing_time": 200,
+  "results": [
+    {
+      "id": "create:crushed_raw_zinc"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:crushed_raw_zinc"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:experience_nugget"
+    },
+    {
+      "chance": 0.12,
+      "id": "minecraft:diorite"
+    }
+  ]
+}

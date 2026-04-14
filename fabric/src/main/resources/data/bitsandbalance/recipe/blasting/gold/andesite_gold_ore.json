@@ -1,0 +1,11 @@
+{
+  "cookingtime": 100,
+  "experience": 1.2,
+  "result": {
+    "id": "minecraft:gold_ingot"
+  },
+  "ingredient": "bitsandbalance:andesite_gold_ore",
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "group": "gold"
+}

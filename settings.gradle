@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.fabricmc.net/' }
+        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+rootProject.name = 'Bits and Balance'
+
+include('common')
+if (!(gradle.startParameter.projectProperties['skipNeoForge'] ?: 'false').toString().toBoolean()) {
+    include('neoforge')
+}
+if (!(gradle.startParameter.projectProperties['skipFabric'] ?: 'false').toString().toBoolean()) {
+    include('fabric')
+}

@@ -1,0 +1,5 @@
+{
+  "type": "bitsandbalance:vertical_step_from_vertical_slab",
+  "category": "building",
+  "direction": "vertical_slab_to_vertical_step"
+}

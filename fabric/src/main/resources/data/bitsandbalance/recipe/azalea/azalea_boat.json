@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boat",
+  "category": "transportation",
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": "bitsandbalance:azalea_planks"
+  },
+  "result": {
+    "id": "bitsandbalance:azalea_boat",
+    "count": 1
+  }
+}

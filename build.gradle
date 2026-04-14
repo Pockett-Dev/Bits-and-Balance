@@ -1,0 +1,215 @@
+import java.nio.charset.StandardCharsets
+import java.util.zip.ZipFile
+
+plugins {
+    // Root is an aggregator only.
+    id 'base'
+}
+
+def curseForgeRuntimeSafetySourceMarkers = [
+    'new ProcessBuilder(',
+    'ProcessBuilder(',
+    'Runtime.getRuntime().exec',
+    'Desktop.getDesktop(',
+    'powershell.exe',
+    'cmd.exe',
+    'rundll32',
+    'xdg-open',
+    '/bin/sh'
+]
+
+def curseForgeRuntimeSafetyArtifactMarkers = [
+    'java/lang/ProcessBuilder',
+    'java/awt/Desktop',
+    'powershell.exe',
+    'cmd.exe',
+    'rundll32',
+    'xdg-open',
+    '/bin/sh'
+]
+
+def curseForgeSourceScanIncludes = [
+    '**/*.java',
+    '**/*.json',
+    '**/*.toml',
+    '**/*.properties',
+    '**/*.mcmeta',
+    '**/*.txt'
+]
+
+def curseForgeArtifactScanExtensions = ['.class', '.json', '.toml', '.properties', '.mcmeta', '.txt']
+def shippedLoaderProjects = ['fabric', 'neoforge'] as Set
+
+// Minecraft 26.1 toolchains expect Gradle to run on Java 25.
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_25)) {
+    throw new GradleException("Java 25 is required to run Gradle for this workspace (current: ${JavaVersion.current()}). Install a JDK 25 and ensure Gradle/IDE uses it (e.g., set JAVA_HOME to JDK 25 or configure the Gradle JVM).")
+}
+
+// Shared coordinates
+allprojects {
+    group = (findProperty('mod_group_id') ?: 'org.grantismantis')
+    version = (findProperty('mod_version') ?: '0.0.0-dev')
+
+    repositories {
+        mavenCentral()
+        maven { url = 'https://maven.fabricmc.net/' }
+        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+}
+
+subprojects {
+    // Default Java toolchain for all loaders.
+    plugins.withId('java') {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(25)
+            }
+        }
+
+        // Fabric runtime remapping still needs Java 21 bytecode, but NeoForge 26.1 resolves
+        // dependencies against Java 25 variants and breaks if we lower its consumer target.
+        if (project.name != 'neoforge') {
+            tasks.withType(JavaCompile).configureEach {
+                options.release = 21
+            }
+        }
+    }
+
+    if (!(project.name in shippedLoaderProjects)) {
+        return
+    }
+
+    def verifySourcesTask = tasks.register('verifyCurseForgeRuntimeSafetySources') {
+        group = 'verification'
+        description = 'Scans shipped source and resource roots for process-launch markers before compile/release.'
+
+        doLast {
+            if (project.extensions.findByName('sourceSets') == null) {
+                return
+            }
+
+            def sourceRoots = new LinkedHashSet<File>()
+            sourceSets.main.java.srcDirs.each { sourceRoots.add(project.file(it)) }
+            sourceSets.main.resources.srcDirs.each { sourceRoots.add(project.file(it)) }
+
+            def hits = []
+            sourceRoots.findAll { it.exists() }.each { root ->
+                project.fileTree(root) {
+                    curseForgeSourceScanIncludes.each { include(it) }
+                }.files.sort { left, right -> left.absolutePath <=> right.absolutePath }.each { candidate ->
+                    def text = candidate.getText('ISO-8859-1')
+                    curseForgeRuntimeSafetySourceMarkers.each { marker ->
+                        if (text.contains(marker)) {
+                            hits << "${project.path}:${project.relativePath(candidate)} -> ${marker}"
+                        }
+                    }
+                }
+            }
+
+            if (!hits.isEmpty()) {
+                throw new GradleException("CurseForge runtime safety source scan failed for ${project.path}:\n - ${hits.join('\n - ')}")
+            }
+        }
+    }
+
+    def verifyArtifactTask = tasks.register('verifyCurseForgeArtifactSafety') {
+        group = 'verification'
+        description = 'Scans the built jar for process-launch markers before assemble/publish.'
+
+        doLast {
+            def archiveTask = tasks.findByName('remapJar') ?: tasks.findByName('jar')
+            if (archiveTask == null || !archiveTask.hasProperty('archiveFile')) {
+                throw new GradleException("Unable to locate an archive task with archiveFile for ${project.path}")
+            }
+
+            File archiveFile = archiveTask.archiveFile.get().asFile
+            if (!archiveFile.exists()) {
+                throw new GradleException("Archive to scan does not exist for ${project.path}: ${archiveFile}")
+            }
+
+            def hits = []
+            new ZipFile(archiveFile).withCloseable { zipFile ->
+                def entries = zipFile.entries().toList().sort { left, right -> left.name <=> right.name }
+                entries.each { entry ->
+                    if (entry.isDirectory()) {
+                        return
+                    }
+
+                    if (!curseForgeArtifactScanExtensions.any { extension -> entry.name.endsWith(extension) }) {
+                        return
+                    }
+
+                    zipFile.getInputStream(entry).withCloseable { inputStream ->
+                        def text = new String(inputStream.readAllBytes(), StandardCharsets.ISO_8859_1)
+                        curseForgeRuntimeSafetyArtifactMarkers.each { marker ->
+                            if (text.contains(marker)) {
+                                hits << "${project.path}:${archiveFile.name}!/${entry.name} -> ${marker}"
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!hits.isEmpty()) {
+                throw new GradleException("CurseForge artifact safety scan failed for ${project.path}:\n - ${hits.join('\n - ')}")
+            }
+        }
+    }
+
+    afterEvaluate {
+        def generateModMetadataTask = tasks.findByName('generateModMetadata')
+        if (generateModMetadataTask != null) {
+            tasks.named('verifyCurseForgeRuntimeSafetySources').configure {
+                dependsOn(generateModMetadataTask)
+            }
+        }
+
+        def compileJavaTask = tasks.findByName('compileJava')
+        if (compileJavaTask != null) {
+            compileJavaTask.dependsOn(verifySourcesTask)
+        }
+
+        def jarTask = tasks.findByName('jar')
+        if (jarTask != null) {
+            tasks.named('verifyCurseForgeArtifactSafety').configure {
+                dependsOn(jarTask)
+            }
+        }
+
+        def remapJarTask = tasks.findByName('remapJar')
+        if (remapJarTask != null) {
+            tasks.named('verifyCurseForgeArtifactSafety').configure {
+                dependsOn(remapJarTask)
+            }
+        }
+
+        def assembleTask = tasks.findByName('assemble')
+        if (assembleTask != null) {
+            assembleTask.dependsOn(verifyArtifactTask)
+        }
+
+        def publishModsTask = tasks.findByName('publishMods')
+        if (publishModsTask != null) {
+            publishModsTask.dependsOn(verifyArtifactTask)
+        }
+    }
+}
+
+tasks.register('verifyCurseForgeSafety') {
+    group = 'verification'
+    description = 'Runs the CurseForge runtime safety source and artifact scans for shipped loader projects.'
+}
+
+gradle.projectsEvaluated {
+    shippedLoaderProjects.each { loaderName ->
+        def loaderProject = findProject(":${loaderName}")
+        if (loaderProject == null) {
+            return
+        }
+
+        tasks.named('verifyCurseForgeSafety').configure {
+            dependsOn("${loaderProject.path}:verifyCurseForgeRuntimeSafetySources")
+            dependsOn("${loaderProject.path}:verifyCurseForgeArtifactSafety")
+        }
+    }
+}

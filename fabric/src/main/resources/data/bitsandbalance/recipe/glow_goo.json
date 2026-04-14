@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:slime_ball",
+    "minecraft:glow_ink_sac",
+    "minecraft:glow_ink_sac"
+  ],
+  "result": {
+    "id": "bitsandbalance:glow_goo",
+    "count": 2
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "bitsandbalance:glow_goo_enabled"
+    },
+    {
+      "condition": "bitsandbalance:glow_goo_two_glow_ink_recipe_enabled"
+    }
+  ]
+}

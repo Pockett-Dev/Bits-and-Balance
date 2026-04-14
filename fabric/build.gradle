@@ -1,0 +1,380 @@
+plugins {
+    id 'java-library'
+    id 'net.fabricmc.fabric-loom' version "${fabric_loom_version}"
+    
+    // Publishes the built jar to CurseForge + Modrinth.
+    // https://modmuss50.github.io/mod-publish-plugin/
+    // TEMPORARILY DISABLED: Conflicts with Fabric Loom classloader
+    // id 'me.modmuss50.mod-publish-plugin' version '1.1.0'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = "${mod_id}-fabric"
+}
+
+def enableJeiCompat = providers.gradleProperty('enable_jei_compat').map { it.toBoolean() }.orElse(
+        gradle.startParameter.taskNames.any { taskName ->
+            taskName.endsWith('runClient') || taskName.endsWith('runClientQuickPlay')
+        }
+)
+def enableJadeCompat = providers.gradleProperty('enable_jade_compat').map { it.toBoolean() }.orElse(false)
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/' }
+    maven { url = 'https://maven.blamejared.com' }
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+def namedMergedMinecraftJar = {
+    def matches = fileTree(rootProject.file('.gradle-user-home/caches/fabric-loom/minecraftMaven/net/minecraft/minecraft-merged')) {
+        include '**/*.jar'
+    }.files.findAll { it.name ==~ /minecraft-merged-.*\.jar/ }
+            .sort { left, right -> left.absolutePath <=> right.absolutePath }
+
+    if (matches.isEmpty()) {
+        throw new GradleException("Missing named merged Minecraft jar in the Fabric Loom cache.")
+    }
+
+    return matches.last()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+
+    implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    implementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+    implementation "net.fabricmc.fabric-api:fabric-content-registries-v0:11.0.12+d871b99e47"
+    implementation "net.fabricmc.fabric-api:fabric-key-binding-api-v1:1.0.47+0af3f5a719"
+    implementation "net.fabricmc.fabric-api:fabric-rendering-v1:23.0.4+10de3da347"
+    compileOnly files(namedMergedMinecraftJar())
+
+    // Always compile JEI compat sources so the jei_mod_plugin entrypoint stays loadable in dev runs.
+    // Keep the actual JEI mod optional at runtime.
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+
+    if (enableJeiCompat.get()) {
+        localRuntime "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
+    }
+
+    if (enableJadeCompat.get()) {
+        compileOnly "maven.modrinth:jade:${jade_fabric_version}"
+    }
+
+}
+
+loom {
+    runs {
+        client {
+            client()
+            name = "Fabric Client"
+            runDir("run-client-fabric")
+
+            def remapClasspathFile = project.file('.gradle/loom-cache/remapClasspath.txt')
+            if (remapClasspathFile.exists()) {
+                vmArg "-Dfabric.remapClasspathFile=${remapClasspathFile.absolutePath}"
+            }
+
+            if ((project.findProperty('debugPistons') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugPistons=true"
+            }
+
+            if ((project.findProperty('debugWoolContrast') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugWoolContrast=true"
+            }
+
+            if ((project.findProperty('debugCustomDyeTint') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyeTint=true"
+            }
+            if ((project.findProperty('debugCustomDyePlatterMagenta') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyePlatterMagenta=true"
+            }
+            if ((project.findProperty('debugCustomDyePowderMagenta') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyePowderMagenta=true"
+            }
+
+            def fixPowderUvShrink = project.findProperty('fixCustomDyePowderUvShrink')
+            if (fixPowderUvShrink != null) {
+                vmArg "-Dbitsandbalance.fixCustomDyePowderUvShrink=${fixPowderUvShrink.toString()}"
+            }
+
+            def fixPowderUvShrinkTexels = project.findProperty('fixCustomDyePowderUvShrinkTexels')
+            if (fixPowderUvShrinkTexels != null) {
+                vmArg "-Dbitsandbalance.fixCustomDyePowderUvShrinkTexels=${fixPowderUvShrinkTexels.toString()}"
+            }
+
+            def fixItemAtlasNoMipmap = project.findProperty('fixCustomDyeItemAtlasNoMipmap')
+            if (fixItemAtlasNoMipmap != null) {
+                vmArg "-Dbitsandbalance.fixCustomDyeItemAtlasNoMipmap=${fixItemAtlasNoMipmap.toString()}"
+            }
+
+			if ((project.findProperty('debugCustomDyeUvInset') ?: 'false').toString().toBoolean()) {
+				vmArg "-Dbitsandbalance.debugCustomDyeUvInset=true"
+			}
+
+            if ((project.findProperty('debugCustomDyeDirectBlit') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyeDirectBlit=true"
+            }
+            if ((project.findProperty('debugCustomDyeItemAtlasFilter') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyeItemAtlasFilter=true"
+            }
+
+            if ((project.findProperty('debugLoomBanners') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugLoomBanners=true"
+            }
+
+            if ((project.findProperty('debugChatHeadsSystemMessages') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugChatHeadsSystemMessages=true"
+            }
+        }
+
+        // Used by CI/dev debugging to verify the client can enter a world without crashing.
+        // Loads an existing world in the run directory if present.
+        clientQuickPlay {
+            client()
+            name = "Fabric Client (Quick Play)"
+            runDir("run-client-fabric")
+            programArgs "--quickPlaySingleplayer", "New World"
+
+            def remapClasspathFile = project.file('.gradle/loom-cache/remapClasspath.txt')
+            if (remapClasspathFile.exists()) {
+                vmArg "-Dfabric.remapClasspathFile=${remapClasspathFile.absolutePath}"
+            }
+
+            if ((project.findProperty('debugPistons') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugPistons=true"
+            }
+
+            if ((project.findProperty('debugWoolContrast') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugWoolContrast=true"
+            }
+
+            if ((project.findProperty('debugCustomDyeTint') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyeTint=true"
+            }
+            if ((project.findProperty('debugCustomDyePlatterMagenta') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyePlatterMagenta=true"
+            }
+            if ((project.findProperty('debugCustomDyePowderMagenta') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyePowderMagenta=true"
+            }
+
+            def fixPowderUvShrink = project.findProperty('fixCustomDyePowderUvShrink')
+            if (fixPowderUvShrink != null) {
+                vmArg "-Dbitsandbalance.fixCustomDyePowderUvShrink=${fixPowderUvShrink.toString()}"
+            }
+
+            def fixPowderUvShrinkTexels = project.findProperty('fixCustomDyePowderUvShrinkTexels')
+            if (fixPowderUvShrinkTexels != null) {
+                vmArg "-Dbitsandbalance.fixCustomDyePowderUvShrinkTexels=${fixPowderUvShrinkTexels.toString()}"
+            }
+
+            def fixItemAtlasNoMipmap = project.findProperty('fixCustomDyeItemAtlasNoMipmap')
+            if (fixItemAtlasNoMipmap != null) {
+                vmArg "-Dbitsandbalance.fixCustomDyeItemAtlasNoMipmap=${fixItemAtlasNoMipmap.toString()}"
+            }
+
+			if ((project.findProperty('debugCustomDyeUvInset') ?: 'false').toString().toBoolean()) {
+				vmArg "-Dbitsandbalance.debugCustomDyeUvInset=true"
+			}
+
+            if ((project.findProperty('debugCustomDyeDirectBlit') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyeDirectBlit=true"
+            }
+            if ((project.findProperty('debugCustomDyeItemAtlasFilter') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugCustomDyeItemAtlasFilter=true"
+            }
+
+            if ((project.findProperty('debugLoomBanners') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugLoomBanners=true"
+            }
+
+            if ((project.findProperty('debugChatHeadsSystemMessages') ?: 'false').toString().toBoolean()) {
+                vmArg "-Dbitsandbalance.debugChatHeadsSystemMessages=true"
+            }
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Treat :common as a shared sources module for now.
+// This avoids cross-module remapping issues while we incrementally port code.
+sourceSets {
+    main {
+        java.srcDir project(':common').file('src/main/java')
+        java.exclude 'org/onenonly/bitsandbalance/fabric/client/FabricMixedSlabModelPlugin.java'
+        java.exclude 'org/onenonly/bitsandbalance/common/recipe/BaseBlockRecoveryRecipe.java'
+        java.exclude 'org/onenonly/bitsandbalance/common/recipe/StepConvertRecipe.java'
+        java.exclude 'org/onenonly/bitsandbalance/common/recipe/StepFromSlabRecipe.java'
+        java.exclude 'org/onenonly/bitsandbalance/common/recipe/VerticalSlabConvertRecipe.java'
+        java.exclude 'org/onenonly/bitsandbalance/common/recipe/VerticalSlabFromPlanksRecipe.java'
+        java.exclude 'org/onenonly/bitsandbalance/common/recipe/VerticalStepFromVerticalSlabRecipe.java'
+        java.exclude 'org/onenonly/bitsandbalance/fabric/mobs/FabricImprovedWanderingTraders.java'
+        java.exclude 'org/onenonly/bitsandbalance/fabric/network/SnowballPowderSnowPacket.java'
+        java.exclude 'org/onenonly/bitsandbalance/fabric/mixin/WanderingTraderMixin.java'
+        if (!enableJadeCompat.get()) {
+            java.exclude 'org/onenonly/bitsandbalance/common/compat/jade/**'
+        }
+        resources.srcDir project(':common').file('src/main/resources')
+
+        // Include datagen output (tags, etc.) shared across loaders.
+        resources.srcDir project.rootProject.file('src/generated/resources')
+
+    }
+}
+
+// Some existing resources were authored under tags/blocks and tags/items.
+// Vanilla expects tags/block and tags/item, so copy them into the correct paths at build time.
+tasks.named('processResources') {
+    doFirst {
+        delete(fileTree(layout.buildDirectory.dir('generated/normalizedRecipeResources')) {
+            include 'data/**/recipe/vertical_slab_from_planks.json'
+            include 'data/**/recipe/vertical_slab_convert.json'
+            include 'data/**/recipe/step_from_slab.json'
+            include 'data/**/recipe/step_convert.json'
+            include 'data/**/recipe/vertical_step_from_vertical_slab.json'
+            include 'data/**/recipe/base_block_recovery.json'
+            include 'data/**/recipes/vertical_slab_from_planks.json'
+            include 'data/**/recipes/vertical_slab_convert.json'
+            include 'data/**/recipes/step_from_slab.json'
+            include 'data/**/recipes/step_convert.json'
+            include 'data/**/recipes/vertical_step_from_vertical_slab.json'
+            include 'data/**/recipes/base_block_recovery.json'
+        })
+    }
+    from(sourceSets.main.resources) {
+        include 'data/**/tags/blocks/**'
+        eachFile { details ->
+            details.path = details.path.replace('/tags/blocks/', '/tags/block/')
+        }
+    }
+    from(sourceSets.main.resources) {
+        include 'data/**/tags/items/**'
+        eachFile { details ->
+            details.path = details.path.replace('/tags/items/', '/tags/item/')
+        }
+    }
+    exclude '.cache/**', '**/*.backup'
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.named('processResources') {
+    inputs.properties([
+            mod_id         : project.findProperty('mod_id'),
+            mod_name       : project.findProperty('mod_name'),
+            mod_version    : project.findProperty('mod_version'),
+            mod_authors    : project.findProperty('mod_authors'),
+            mod_description: project.findProperty('mod_description'),
+            mod_license    : project.findProperty('mod_license'),
+            minecraft_version: project.findProperty('minecraft_version'),
+                fabric_minecraft_version_range: project.findProperty('fabric_minecraft_version_range'),
+            fabric_loader_version: project.findProperty('fabric_loader_version'),
+            fabric_api_version: project.findProperty('fabric_api_version')
+    ])
+
+    filesMatching('fabric.mod.json') {
+        expand([
+                mod_id      : project.findProperty('mod_id'),
+                mod_name    : project.findProperty('mod_name'),
+                mod_version : project.findProperty('mod_version'),
+                mod_authors : project.findProperty('mod_authors'),
+                mod_description: project.findProperty('mod_description'),
+                mod_license : project.findProperty('mod_license'),
+                fabric_minecraft_version_range: project.findProperty('fabric_minecraft_version_range'),
+                fabric_loader_version: project.findProperty('fabric_loader_version'),
+                fabric_api_version: project.findProperty('fabric_api_version')
+        ])
+    }
+
+    // Vanilla does not have a minecraft:brewing recipe serializer. These JSON files are
+    // kept for other loaders/feature work, but must not ship in the Fabric jar.
+    exclude 'data/bitsandbalance/recipe/brewing/**'
+}
+
+// --- Release publishing (CurseForge + Modrinth) ---
+
+def modVersionProvider = providers.gradleProperty('mod_version')
+def changelogPathProvider = modVersionProvider.map { v -> "CHANGELOG_v${v}.md" }
+def changelogFileProvider = changelogPathProvider.map { path -> rootProject.layout.projectDirectory.file(path).asFile }
+def supportedMinecraftVersions = (project.findProperty('supported_minecraft_versions') ?: project.minecraft_version.toString())
+    .toString()
+    .split(',')
+    .collect { it.trim() }
+    .findAll { !it.isEmpty() }
+
+tasks.register('validateReleaseChangelog') {
+    group = 'publishing'
+    description = 'Validates that the version changelog exists and matches the current mod_version.'
+    inputs.property('mod_version', modVersionProvider)
+    inputs.file(changelogFileProvider)
+
+    doLast {
+        def modVersion = modVersionProvider.get()
+        def changelogFile = changelogFileProvider.get()
+        if (!changelogFile.exists()) {
+            throw new GradleException("Missing required changelog: ${changelogFile.name} (expected for mod_version=${modVersion})")
+        }
+        def text = changelogFile.getText('UTF-8')
+        def expectedHeader = "# Bits and Balance v${modVersion}".toString()
+        if (!text.contains(expectedHeader)) {
+            throw new GradleException("Changelog ${changelogFile.name} must contain header '${expectedHeader}'")
+        }
+        // Basic sanity checks to avoid accidental/premature publishes.
+        if (text.contains('TODO') || text.contains('WIP') || text.contains('TBD')) {
+            throw new GradleException("Changelog ${changelogFile.name} contains TODO/WIP/TBD markers. Clean it up before publishing.")
+        }
+        if (!text.contains('## ')) {
+            throw new GradleException("Changelog ${changelogFile.name} should contain at least one section header (e.g. '## Major Fixes').")
+        }
+    }
+}
+
+// TEMPORARILY DISABLED: mod-publish-plugin conflicts with Fabric Loom classloader
+// Use NeoForge build for publishing, or publish Fabric manually
+/*
+publishMods {
+    // Use the built jar from this project.
+    file = tasks.named('jar').flatMap { it.archiveFile }
+
+    // Read changelog from the per-version file (validated by validateReleaseChangelog).
+    changelog = changelogPathProvider.map { path -> providers.fileContents(rootProject.layout.projectDirectory.file(path)).asText.get() }.get()
+    version = modVersionProvider.get()
+    type = STABLE
+
+    modLoaders.add('fabric')
+
+    // Fill these in once per project (IDs/tokens are kept out of git).
+    curseforge {
+        accessToken = providers.environmentVariable('CURSEFORGE_TOKEN')
+        projectId = providers.environmentVariable('CURSEFORGE_PROJECT_ID')
+        // projectSlug is optional but recommended if you later add webhooks.
+        projectSlug = providers.environmentVariable('CURSEFORGE_PROJECT_SLUG')
+        supportedMinecraftVersions.each { minecraftVersions.add(it) }
+    }
+
+    modrinth {
+        accessToken = providers.environmentVariable('MODRINTH_TOKEN')
+        projectId = providers.environmentVariable('MODRINTH_PROJECT_ID')
+        supportedMinecraftVersions.each { minecraftVersions.add(it) }
+    }
+}
+
+tasks.named('publishMods').configure {
+            if (project.hasProperty('fixCustomDyeRuntimeComposite')) {
+                vmArg "-Dbitsandbalance.fixCustomDyeRuntimeComposite=${project.property('fixCustomDyeRuntimeComposite')}"
+            }
+    dependsOn(tasks.named('validateReleaseChangelog'))
+}
+*/

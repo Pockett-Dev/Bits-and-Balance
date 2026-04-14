@@ -1,0 +1,7 @@
+{
+  "values": {
+    "minecraft:torch": {
+      "burn_time": 400
+    }
+  }
+}

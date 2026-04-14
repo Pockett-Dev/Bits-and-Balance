@@ -1,0 +1,20 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    // Keep repositories centralized; root build.gradle also adds these.
+    mavenCentral()
+}
+
+// Common module will be populated incrementally.
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

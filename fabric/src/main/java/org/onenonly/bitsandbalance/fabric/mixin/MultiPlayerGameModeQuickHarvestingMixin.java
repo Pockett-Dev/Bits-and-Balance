@@ -1,0 +1,43 @@
+package org.onenonly.bitsandbalance.fabric.mixin;
+
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import org.onenonly.bitsandbalance.fabric.config.FabricMechanicsConfig;
+import org.onenonly.bitsandbalance.fabric.mechanics.FabricQuickHarvesting;
+import org.onenonly.bitsandbalance.fabric.network.QuickHarvestPayload;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(value = MultiPlayerGameMode.class, priority = 1500)
+public class MultiPlayerGameModeQuickHarvestingMixin {
+
+    @Inject(method = "useItemOn", at = @At("HEAD"), cancellable = true)
+    private void bitsandbalance$handleQuickHarvesting(LocalPlayer player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+        if (!FabricMechanicsConfig.enableQuickHarvesting) {
+            return;
+        }
+        if (player.isSpectator()) {
+            return;
+        }
+
+        ItemStack stack = player.getItemInHand(hand);
+        BlockPos clickedPos = hitResult.getBlockPos();
+        BlockState clickedState = player.level().getBlockState(clickedPos);
+        if (!FabricQuickHarvesting.shouldHandleInteraction(stack, clickedState)) {
+            return;
+        }
+
+        ClientPlayNetworking.send(new QuickHarvestPayload(clickedPos, hand));
+        player.swing(hand, true);
+        cir.setReturnValue(InteractionResult.SUCCESS);
+    }
+}

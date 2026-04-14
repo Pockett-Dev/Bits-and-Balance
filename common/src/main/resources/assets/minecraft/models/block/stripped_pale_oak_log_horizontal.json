@@ -1,0 +1,62 @@
+{
+  "parent": "minecraft:block/block",
+"gui_light": "side",
+"elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#down",
+          "cullface": "down",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#up",
+          "rotation": 180,
+          "cullface": "up",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#north",
+          "cullface": "north",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#south",
+          "cullface": "south",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#west",
+          "cullface": "west",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#east",
+          "cullface": "east",
+          "tintindex": 0
+        }
+      }
+    }
+  ],
+  "textures": {
+    "particle": "#side",
+    "down": "#end",
+    "up": "#end",
+    "north": "#side",
+    "east": "#side",
+    "south": "#side",
+    "west": "#side",
+    "end": "minecraft:block/stripped_pale_oak_log_top",
+    "side": "minecraft:block/stripped_pale_oak_log"
+  }
+}

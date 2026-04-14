@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/pale_oak_shelf_inventory",
+  "textures": {
+    "particle": "bitsandbalance:block/stripped_azalea_log",
+    "all": "bitsandbalance:block/azalea_shelf"
+  }
+}

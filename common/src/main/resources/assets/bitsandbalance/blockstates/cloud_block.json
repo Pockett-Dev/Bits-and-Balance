@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "temporary=false": {
+      "model": "bitsandbalance:block/cloud_block"
+    },
+    "temporary=true": {
+      "model": "bitsandbalance:block/cloud_block"
+    }
+  }
+}

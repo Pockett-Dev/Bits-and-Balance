@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:brewing",
+  "input": "bitsandbalance:displacement",
+  "reagent": "minecraft:echo_shard",
+  "output": "bitsandbalance:returning"
+}

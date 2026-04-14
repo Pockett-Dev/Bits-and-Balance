@@ -1,0 +1,1 @@
+{ "parent": "minecraft:block/bnb_tinted_two_candles", "textures": { "all": "minecraft:block/white_candle_lit", "particle": "minecraft:block/white_candle_lit" } }

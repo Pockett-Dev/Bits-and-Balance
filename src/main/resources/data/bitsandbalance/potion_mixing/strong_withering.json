@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "bitsandbalance:withering" },
+  "reagent": { "item": "minecraft:glowstone_dust" },
+  "result": { "potion": "bitsandbalance:strong_withering" }
+}

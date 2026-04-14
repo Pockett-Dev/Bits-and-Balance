@@ -1,0 +1,30 @@
+{
+  "type": "create:crushing",
+  "ingredient": "bitsandbalance:granite_gold_ore",
+  "processing_time": 200,
+  "results": [
+    {
+      "id": "create:crushed_raw_gold"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:crushed_raw_gold"
+    },
+    {
+      "chance": 0.75,
+      "id": "create:experience_nugget"
+    },
+    {
+      "chance": 0.12,
+      "id": "minecraft:granite"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ]
+}

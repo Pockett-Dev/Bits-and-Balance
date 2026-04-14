@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "#minecraft:wool",
+    "#c:dyes/light_gray"
+  ],
+  "result": { "id": "minecraft:light_gray_wool", "count": 1 }
+}

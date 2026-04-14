@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "minecraft:strong_swiftness" },
+  "reagent": { "item": "minecraft:quartz" },
+  "result": { "potion": "bitsandbalance:strong_haste" }
+}

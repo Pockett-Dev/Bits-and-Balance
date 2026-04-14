@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "#minecraft:wool",
+    "#c:dyes/light_blue"
+  ],
+  "result": { "id": "minecraft:light_blue_wool", "count": 1 }
+}

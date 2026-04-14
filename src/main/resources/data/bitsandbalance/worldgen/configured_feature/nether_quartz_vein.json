@@ -1,0 +1,21 @@
+{
+  "type": "bitsandbalance:mojang_style_vein",
+  "config": {
+    "replaceable_tag": "#bitsandbalance:vein_replaceable_nether",
+    "filler": "minecraft:netherrack",
+    "ore": "minecraft:nether_quartz_ore",
+    "raw_block": "bitsandbalance:raw_quartz_block",
+    "min_y": 8,
+    "max_y": 100,
+    "frequency": 0.015,
+    "sample_chance": 0.25,
+    "chunk_chance": 0.25,
+    "patch_size_xz": 8,
+    "gap_threshold": -1.0,
+    "richness_multiplier": 6.0,
+    "vein_solidness": 1.0,
+    "chance_of_raw_block": 0.02,
+    "sample_offset_xz": -8192,
+    "require_positive_toggle": false
+  }
+}
