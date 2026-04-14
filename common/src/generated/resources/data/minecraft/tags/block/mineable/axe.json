@@ -1,0 +1,19 @@
+{
+    "values":  [
+                   "bitsandbalance:azalea_log",
+                   "bitsandbalance:azalea_wood",
+                   "bitsandbalance:stripped_azalea_log",
+                   "bitsandbalance:stripped_azalea_wood",
+                   "bitsandbalance:azalea_planks",
+                   "bitsandbalance:azalea_slab",
+                   "bitsandbalance:azalea_stairs",
+                   "bitsandbalance:azalea_button",
+                   "bitsandbalance:azalea_pressure_plate",
+                   "bitsandbalance:azalea_fence",
+                   "bitsandbalance:azalea_fence_gate",
+                   "bitsandbalance:azalea_door",
+                   "bitsandbalance:azalea_trapdoor",
+                   "bitsandbalance:azalea_sign",
+                   "bitsandbalance:azalea_wall_sign"
+               ]
+}

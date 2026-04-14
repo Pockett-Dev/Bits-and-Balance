@@ -1,0 +1,11 @@
+{
+    "cookingtime":  100,
+    "experience":  0.4,
+    "result":  {
+                   "id":  "minecraft:lapis_lazuli"
+               },
+    "ingredient":  "bitsandbalance:granite_lapis_ore",
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "lapis"
+}

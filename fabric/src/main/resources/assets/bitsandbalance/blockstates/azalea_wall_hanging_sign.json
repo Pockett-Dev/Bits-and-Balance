@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,waterlogged=false": { "model": "bitsandbalance:block/azalea_wall_hanging_sign" },
+    "facing=north,waterlogged=true": { "model": "bitsandbalance:block/azalea_wall_hanging_sign" },
+    "facing=south,waterlogged=false": { "model": "bitsandbalance:block/azalea_wall_hanging_sign", "y": 180 },
+    "facing=south,waterlogged=true": { "model": "bitsandbalance:block/azalea_wall_hanging_sign", "y": 180 },
+    "facing=west,waterlogged=false": { "model": "bitsandbalance:block/azalea_wall_hanging_sign", "y": 270 },
+    "facing=west,waterlogged=true": { "model": "bitsandbalance:block/azalea_wall_hanging_sign", "y": 270 },
+    "facing=east,waterlogged=false": { "model": "bitsandbalance:block/azalea_wall_hanging_sign", "y": 90 },
+    "facing=east,waterlogged=true": { "model": "bitsandbalance:block/azalea_wall_hanging_sign", "y": 90 }
+  }
+}

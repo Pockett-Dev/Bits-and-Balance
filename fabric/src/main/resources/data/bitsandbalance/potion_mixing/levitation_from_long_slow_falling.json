@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "minecraft:long_slow_falling" },
+  "reagent": { "item": "minecraft:shulker_shell" },
+  "result": { "potion": "bitsandbalance:levitation" }
+}

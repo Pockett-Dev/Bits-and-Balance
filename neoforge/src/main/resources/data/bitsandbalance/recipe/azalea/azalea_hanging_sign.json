@@ -1,0 +1,23 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "bitsandbalance:azalea_woodset_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "group": "hanging_sign",
+  "category": "decorations",
+  "pattern": [
+    "C C",
+    "SSS",
+    "SSS"
+  ],
+  "key": {
+    "C": "#minecraft:chains",
+    "S": "bitsandbalance:stripped_azalea_log"
+  },
+  "result": {
+    "id": "bitsandbalance:azalea_hanging_sign",
+    "count": 6
+  }
+}

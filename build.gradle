@@ -1,0 +1,195 @@
+plugins {
+    // Root is an aggregator only.
+    id 'base'
+}
+
+// Minecraft 1.21.10 toolchains (Fabric Loom and NeoForge tooling) expect Gradle to run on Java 21.
+if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
+    throw new GradleException("Java 21 is required to run Gradle for this workspace (current: ${JavaVersion.current()}). Install a JDK 21 and ensure Gradle/IDE uses it (e.g., set JAVA_HOME to JDK 21 or configure the Gradle JVM).")
+}
+
+// Shared coordinates
+allprojects {
+    group = (findProperty('mod_group_id') ?: 'org.grantismantis')
+    version = (findProperty('mod_version') ?: '0.0.0-dev')
+
+    repositories {
+        mavenCentral()
+        maven { url = 'https://maven.fabricmc.net/' }
+        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+}
+
+subprojects {
+    // Default Java toolchain for all loaders.
+    plugins.withId('java') {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(21)
+            }
+        }
+    }
+}
+
+def curseforgeSourceSafetyMarkers = [
+    [needle: 'new ProcessBuilder(', reason: 'Java process launch API'],
+    [needle: 'ProcessBuilder(', reason: 'Java process launch API'],
+    [needle: 'Runtime.getRuntime().exec', reason: 'Java runtime exec API'],
+    [needle: 'Desktop.getDesktop(', reason: 'Desktop shell integration API'],
+    [needle: 'powershell.exe', reason: 'Windows PowerShell launch'],
+    [needle: 'cmd.exe', reason: 'Windows command shell launch'],
+    [needle: 'rundll32', reason: 'Windows DLL launcher'],
+    [needle: 'xdg-open', reason: 'Linux desktop opener'],
+    [needle: '/bin/sh', reason: 'POSIX shell launch']
+]
+
+def curseforgeArtifactSafetyMarkers = [
+    [needle: 'java/lang/ProcessBuilder', reason: 'Java process launch API'],
+    [needle: 'java/awt/Desktop', reason: 'Desktop shell integration API'],
+    [needle: 'powershell.exe', reason: 'Windows PowerShell launch'],
+    [needle: 'cmd.exe', reason: 'Windows command shell launch'],
+    [needle: 'rundll32', reason: 'Windows DLL launcher'],
+    [needle: 'xdg-open', reason: 'Linux desktop opener'],
+    [needle: '/bin/sh', reason: 'POSIX shell launch']
+]
+
+subprojects { subproject ->
+    if (!(subproject.name in ['fabric', 'neoforge'])) {
+        return
+    }
+
+    afterEvaluate {
+        def sourceSets = subproject.extensions.findByType(org.gradle.api.tasks.SourceSetContainer)
+        def mainSourceSet = sourceSets?.findByName('main')
+        if (mainSourceSet == null) {
+            return
+        }
+
+        def textExtensions = ['.java', '.kt', '.json', '.toml', '.properties', '.mcmeta']
+        def mainSourceRoots = (mainSourceSet.java.srcDirs + mainSourceSet.resources.srcDirs)
+                .findAll { it != null && it.exists() }
+                .unique()
+
+        def verifySourcesTask = subproject.tasks.register('verifyCurseForgeRuntimeSafetySources') {
+            group = 'verification'
+            description = 'Scans shipped source files for runtime command-launch patterns that are likely to trigger CurseForge rejection.'
+
+            inputs.files(mainSourceRoots)
+
+            doLast {
+                def findings = []
+
+                mainSourceRoots.each { File sourceRoot ->
+                    if (!sourceRoot.exists()) {
+                        return
+                    }
+
+                    sourceRoot.eachFileRecurse(groovy.io.FileType.FILES) { File file ->
+                        if (!textExtensions.any { file.name.endsWith(it) }) {
+                            return
+                        }
+
+                        def text = file.getText('UTF-8')
+                        curseforgeSourceSafetyMarkers.each { marker ->
+                            if (text.contains(marker.needle)) {
+                                def relativePath = subproject.projectDir.toPath().relativize(file.toPath()).toString().replace('\\', '/')
+                                findings << "${relativePath}: ${marker.needle} (${marker.reason})"
+                            }
+                        }
+                    }
+                }
+
+                if (!findings.isEmpty()) {
+                    throw new GradleException(
+                            "CurseForge safety scan failed for ${subproject.path}. Remove runtime command-launch code before building release artifacts.\n"
+                                    + findings.collect { " - ${it}" }.join('\n')
+                    )
+                }
+            }
+        }
+
+        def generateModMetadataTask = subproject.tasks.findByName('generateModMetadata')
+        if (generateModMetadataTask != null) {
+            verifySourcesTask.configure {
+                dependsOn(generateModMetadataTask)
+            }
+        }
+
+        subproject.tasks.matching { it.name == 'compileJava' }.configureEach {
+            dependsOn(verifySourcesTask)
+        }
+
+        def archiveTaskName = subproject.tasks.findByName('remapJar') != null ? 'remapJar' : 'jar'
+        def archiveTask = subproject.tasks.findByName(archiveTaskName)
+        if (archiveTask == null || !(archiveTask instanceof org.gradle.api.tasks.bundling.AbstractArchiveTask)) {
+            return
+        }
+
+        def verifyArtifactTask = subproject.tasks.register('verifyCurseForgeArtifactSafety') {
+            group = 'verification'
+            description = 'Scans the built mod jar for runtime command-launch markers before upload/publish.'
+
+            dependsOn(archiveTask)
+            inputs.file(archiveTask.archiveFile)
+
+            doLast {
+                File jarFile = archiveTask.archiveFile.get().asFile
+                if (!jarFile.exists()) {
+                    throw new GradleException("Expected artifact does not exist for ${subproject.path}: ${jarFile}")
+                }
+
+                def findings = []
+                def scannedExtensions = ['.class', '.json', '.toml', '.properties', '.mcmeta', '.txt']
+
+                new java.util.zip.ZipFile(jarFile).withCloseable { zipFile ->
+                    def entries = zipFile.entries()
+                    while (entries.hasMoreElements()) {
+                        def entry = entries.nextElement()
+                        if (entry.isDirectory()) {
+                            continue
+                        }
+
+                        if (!scannedExtensions.any { entry.name.endsWith(it) }) {
+                            continue
+                        }
+
+                        def text = new String(zipFile.getInputStream(entry).readAllBytes(), java.nio.charset.StandardCharsets.ISO_8859_1)
+                        curseforgeArtifactSafetyMarkers.each { marker ->
+                            if (text.contains(marker.needle)) {
+                                findings << "${entry.name}: ${marker.needle} (${marker.reason})"
+                            }
+                        }
+                    }
+                }
+
+                if (!findings.isEmpty()) {
+                    throw new GradleException(
+                            "CurseForge artifact safety scan failed for ${subproject.path}. The built jar still contains executable-launch markers.\n"
+                                    + findings.collect { " - ${it}" }.join('\n')
+                    )
+                }
+            }
+        }
+
+        archiveTask.finalizedBy(verifyArtifactTask)
+
+        subproject.tasks.matching { it.name == 'assemble' }.configureEach {
+            dependsOn(verifyArtifactTask)
+        }
+
+        subproject.tasks.matching { it.name == 'publishMods' }.configureEach {
+            dependsOn(verifyArtifactTask)
+        }
+    }
+}
+
+tasks.register('verifyCurseForgeSafety') {
+    group = 'verification'
+    description = 'Runs source and artifact safety checks for all published loaders.'
+    dependsOn(
+            ':fabric:verifyCurseForgeRuntimeSafetySources',
+            ':fabric:verifyCurseForgeArtifactSafety',
+            ':neoforge:verifyCurseForgeRuntimeSafetySources',
+            ':neoforge:verifyCurseForgeArtifactSafety'
+    )
+}

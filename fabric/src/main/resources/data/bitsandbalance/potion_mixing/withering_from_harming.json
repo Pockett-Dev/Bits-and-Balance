@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "minecraft:harming" },
+  "reagent": { "item": "minecraft:wither_rose" },
+  "result": { "potion": "bitsandbalance:withering" }
+}

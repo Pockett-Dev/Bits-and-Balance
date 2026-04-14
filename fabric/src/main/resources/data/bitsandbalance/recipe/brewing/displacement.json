@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:brewing",
+  "input": "minecraft:awkward",
+  "reagent": "minecraft:ender_eye",
+  "output": "bitsandbalance:displacement"
+}

@@ -1,0 +1,185 @@
+# Gradle
+.gradle/
+.gradle-user-home/
+.gradle-tmp/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# CDT- autotools
+.autotools
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Annotation Processing
+.apt_generated/
+.apt_generated_test/
+
+# Scala IDE specific (Scala & Java IDE for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Minecraft/NeoForge specific
+run/
+run-client/
+run-client-fabric/
+fabric/run-client-fabric/
+fabric/run-client-fabric2/
+run-data/
+net/
+logs/
+screenshots/
+saves/
+mods/
+/config/
+options.txt
+usercache.json
+usernamecache.json
+server.properties
+whitelist.json
+banned-*.json
+ops.json
+eula.txt
+
+# Crash reports
+crash-*.txt
+
+# Backup files
+*.backup
+*.bak
+*.old
+*_backup_*
+src_backup_*.zip
+src_*.zip
+temp_*
+
+# Temporary files
+*.tmp
+*.temp
+temp_fix.*
+.tmp_minecraft_items/
+
+# Local scratch/extract dirs
+_tmp*/
+_tmp_*/
+_tmp*
+mappings/
+
+# Documentation that's not part of the core project
+*.md
+!README.md
+!CHANGELOG*.md
+!FEATURES.md
+!*TEST*.md
+!*DEBUG*.md
+!*IMPLEMENTATION*.md
+!*IMPLEMENTATION_GUIDE*.md
+
+# Local publishing docs / helpers (keep out of git)
+PUBLISHING.md
+scripts/publish-local.ps1.example
+
+# Extracted mods
+*-extracted/
+quark_extracted/
+ImmediatelyFast-extracted/
+
+# Spec kit
+BitsAndBalance-Spec-Kit/
+
+# Python files
+*.py
+
+!scripts/generate_color_names_json.py
+!scripts/import_color_meanings_palette.py
+!scripts/verify_color_palette.py
+*.pyc
+__pycache__/
+
+# PowerShell files
+*.ps1
+
+# Local publishing secrets / scripts (keep out of git)
+.env
+.env.*
+publishing.local.*
+scripts/publish-local.ps1
+
+# Java class files
+*.class
+
+# JAR files
+*.jar
+!gradle-wrapper.jar
+
+# Log files
+*.log
+*.log.gz
+
+# Cache files
+.cache/

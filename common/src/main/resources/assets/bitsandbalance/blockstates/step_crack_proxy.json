@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=east,top=false":  { "model": "bitsandbalance:block/step_crack_bottom_east" },
+    "facing=west,top=false":  { "model": "bitsandbalance:block/step_crack_bottom_west" },
+    "facing=south,top=false": { "model": "bitsandbalance:block/step_crack_bottom_south" },
+    "facing=north,top=false": { "model": "bitsandbalance:block/step_crack_bottom_north" },
+    "facing=east,top=true":   { "model": "bitsandbalance:block/step_crack_top_east" },
+    "facing=west,top=true":   { "model": "bitsandbalance:block/step_crack_top_west" },
+    "facing=south,top=true":  { "model": "bitsandbalance:block/step_crack_top_south" },
+    "facing=north,top=true":  { "model": "bitsandbalance:block/step_crack_top_north" }
+  }
+}

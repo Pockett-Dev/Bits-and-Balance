@@ -1,0 +1,23 @@
+{
+  "values": [
+    "minecraft:torch",
+    "minecraft:wall_torch",
+    "minecraft:soul_torch",
+    "minecraft:soul_wall_torch",
+    "minecraft:redstone_torch",
+    "minecraft:redstone_wall_torch",
+    "minecraft:lantern",
+    "minecraft:soul_lantern",
+    "minecraft:bell",
+    "minecraft:lever",
+
+    "#minecraft:doors",
+    "#minecraft:fences",
+    "#minecraft:fence_gates",
+    "#minecraft:buttons",
+    "#minecraft:pressure_plates",
+    "#minecraft:standing_signs",
+    "#minecraft:wall_signs",
+    "#minecraft:wall_hanging_signs"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "bitsandbalance:azalea_woodset_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_slab",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": "bitsandbalance:azalea_planks"
+  },
+  "result": {
+    "id": "bitsandbalance:azalea_slab",
+    "count": 6
+  }
+}

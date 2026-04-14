@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+    id 'fabric-loom' version "${fabric_loom_version}"
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/bitsandbalance.accesswidener")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    // Keep repositories centralized; root build.gradle also adds these.
+    mavenCentral()
+
+    // Optional deps (Jade, etc.)
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+
+    // Jade (optional, compile-time only)
+    modCompileOnly "maven.modrinth:jade:${jade_fabric_version}"
+}
+
+// Common module will be populated incrementally.
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

@@ -1,0 +1,11 @@
+{
+  "cookingtime": 200,
+  "experience": 0.8,
+  "result": {
+    "id": "minecraft:redstone"
+  },
+  "ingredient": "bitsandbalance:diorite_redstone_ore",
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "group": "redstone"
+}

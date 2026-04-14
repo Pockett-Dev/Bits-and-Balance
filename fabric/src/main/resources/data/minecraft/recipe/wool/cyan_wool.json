@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "#minecraft:wool",
+    "#c:dyes/cyan"
+  ],
+  "result": {
+    "id": "minecraft:cyan_wool",
+    "count": 1
+  }
+}

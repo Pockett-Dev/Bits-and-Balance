@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "texture": "minecraft:block/stone",
+    "particle": "minecraft:block/stone"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 8],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#texture" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#texture" },
+        "west": { "uv": [0, 0, 8, 16], "texture": "#texture" },
+        "east": { "uv": [8, 0, 16, 16], "texture": "#texture" },
+        "up": { "uv": [0, 8, 16, 16], "texture": "#texture" },
+        "down": { "uv": [0, 0, 16, 8], "texture": "#texture" }
+      }
+    }
+  ],
+  "display": {
+    "ground": {
+      "translation": [0, 3, -1],
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "gui": {
+      "rotation": [30, -135, 0],
+      "translation": [1.75, -0.75, 0],
+      "scale": [0.625, 0.625, 0.625]
+    },
+    "head": {
+      "rotation": [103, 0, 0],
+      "translation": [0, 8, 1.75]
+    },
+    "fixed": {
+      "translation": [0, 0, -0.5],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "on_shelf": {
+      "translation": [0, 0, -6.5]
+    }
+  }
+}

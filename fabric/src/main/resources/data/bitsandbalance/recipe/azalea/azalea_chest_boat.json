@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "chest_boat",
+  "category": "transportation",
+  "ingredients": [
+    "minecraft:chest",
+    "bitsandbalance:azalea_boat"
+  ],
+  "result": {
+    "id": "bitsandbalance:azalea_chest_boat",
+    "count": 1
+  }
+}

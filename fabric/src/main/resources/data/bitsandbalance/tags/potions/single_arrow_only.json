@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "bitsandbalance:withering",
+    "bitsandbalance:long_withering",
+    "bitsandbalance:strong_withering",
+    "bitsandbalance:levitation",
+    "bitsandbalance:long_levitation",
+    "bitsandbalance:strong_levitation",
+    "bitsandbalance:haste",
+    "bitsandbalance:long_haste",
+    "bitsandbalance:strong_haste"
+  ]
+}

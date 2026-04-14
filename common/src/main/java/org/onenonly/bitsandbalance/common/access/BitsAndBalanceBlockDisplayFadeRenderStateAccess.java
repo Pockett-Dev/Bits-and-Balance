@@ -1,0 +1,11 @@
+package org.onenonly.bitsandbalance.common.access;
+
+public interface BitsAndBalanceBlockDisplayFadeRenderStateAccess {
+    void bitsandbalance$setBottleCloudFade(boolean value);
+
+    boolean bitsandbalance$isBottleCloudFade();
+
+    void bitsandbalance$setBottleCloudFadeAlpha(float alpha);
+
+    float bitsandbalance$getBottleCloudFadeAlpha();
+}

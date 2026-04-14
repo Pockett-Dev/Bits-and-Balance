@@ -1,0 +1,43 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.grantismantis.bitsandbalance.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "bitsandbalance.refmap.json",
+  "mixins": [
+    "SecondChanceMixin",
+    "SnowballMixin",
+    "PowderSnowMarkMixin",
+    "PotionBrewingIngredientMixin",
+    "BrewingStandMenuMixin",
+    "BrewingStandIngredientsSlotMixin",
+    "BrewingStandBlockEntityMixin",
+    "BrewingStandAccessor",
+    "CampfireIgniteMixin",
+    "FoodAlwaysEdibleMixin",
+    "ItemEatDurationMixin",
+    "ItemStackUseDurationMixin",
+    "ArmorStandItemMixin",
+    "DoorBlockMixin",
+    "TrapDoorBlockMixin",
+    "LivingEntityClimbSpeedMixin",
+    "LivingEntityTravelTailMixin",
+    "PlayerTravelSittingMixin",
+    "LivingEntityJumpMixin"
+  ],
+  "client": [
+    "MobEffectUtilMixin",
+    "GameRendererMixin",
+    "MinecraftMixin",
+    "ClientPacketListenerMixin",
+    "LocalPlayerMixin",
+    "RemotePlayerMixin",
+    "HumanoidModelMixin",
+    "MultiLineEditBoxMixin",
+    "AbstractSignEditScreenMixin",
+    "ScreenMixin",
+    "ScreenEffectRendererMixin",
+    "GuiMixin",
+    "ArmorStandModelMixin"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "type": "bitsandbalance:configurable_add_table",
+  "conditions": [],
+  "target_table": "minecraft:chests/woodland_mansion"
+}

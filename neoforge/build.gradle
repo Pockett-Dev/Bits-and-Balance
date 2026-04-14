@@ -1,0 +1,368 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'idea'
+    id 'net.neoforged.moddev' version '2.0.134'
+
+	// Publishes the built jar to CurseForge + Modrinth.
+	// https://modmuss50.github.io/mod-publish-plugin/
+	id 'me.modmuss50.mod-publish-plugin' version '1.1.0'
+}
+
+version = mod_version
+group = mod_group_id
+
+def commonProject = rootProject.project(':common')
+
+repositories {
+    maven { url = 'https://maven.blamejared.com' }
+    maven { url = 'https://api.modrinth.com/maven' }
+}
+
+base {
+    archivesName = "${mod_id}-neoforge"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    // Specify the version of NeoForge to use.
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    // This line is optional. Access Transformers are automatically detected
+    // accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
+
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            client()
+
+            // Use an isolated run directory so unrelated/incompatible local mods in ./run don't break dev runs
+            gameDirectory = rootProject.file('run-client')
+
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+
+            // Use an isolated run directory so unrelated/incompatible local mods in ./run don't break dev runs
+            gameDirectory = rootProject.file('run-server')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            // NeoForge 21.10+ uses separate run types for datagen (clientData/serverData)
+            type = "serverData"
+
+            // Run datagen in a clean directory (avoid loading local mods from other MC versions)
+            gameDirectory = rootProject.file('run-data')
+
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', commonProject.file('src/generated/resources/').getAbsolutePath(), '--existing', project.file('src/main/resources/').getAbsolutePath()
+        }
+
+        // applies to all the run configs above
+        configureEach {
+            if ((project.findProperty('debugNeoForgeRegistryLogging') ?: 'false').toString().toBoolean()) {
+                systemProperty 'forge.logging.markers', 'REGISTRIES'
+            }
+
+            logLevel = ((project.findProperty('debugNeoForgeLogging') ?: 'false').toString().toBoolean())
+                    ? org.slf4j.event.Level.DEBUG
+                    : org.slf4j.event.Level.INFO
+
+            if ((project.findProperty('debugCustomDyeTint') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugCustomDyeTint', 'true'
+            }
+
+            if ((project.findProperty('debugPistons') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugPistons', 'true'
+            }
+
+            if ((project.findProperty('debugCustomDyePlatterMagenta') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugCustomDyePlatterMagenta', 'true'
+            }
+
+            if ((project.findProperty('debugCustomDyePowderMagenta') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugCustomDyePowderMagenta', 'true'
+            }
+
+            def fixPowderUvShrink = project.findProperty('fixCustomDyePowderUvShrink')
+            if (fixPowderUvShrink != null) {
+                systemProperty 'bitsandbalance.fixCustomDyePowderUvShrink', fixPowderUvShrink.toString()
+            }
+
+            def fixPowderUvShrinkTexels = project.findProperty('fixCustomDyePowderUvShrinkTexels')
+            if (fixPowderUvShrinkTexels != null) {
+                systemProperty 'bitsandbalance.fixCustomDyePowderUvShrinkTexels', fixPowderUvShrinkTexels.toString()
+            }
+
+            def fixItemAtlasNoMipmap = project.findProperty('fixCustomDyeItemAtlasNoMipmap')
+            if (fixItemAtlasNoMipmap != null) {
+                systemProperty 'bitsandbalance.fixCustomDyeItemAtlasNoMipmap', fixItemAtlasNoMipmap.toString()
+            }
+
+            def fixRuntimeComposite = project.findProperty('fixCustomDyeRuntimeComposite')
+            if (fixRuntimeComposite != null) {
+                systemProperty 'bitsandbalance.fixCustomDyeRuntimeComposite', fixRuntimeComposite.toString()
+            }
+
+			if ((project.findProperty('debugCustomDyeUvInset') ?: 'false').toString().toBoolean()) {
+				systemProperty 'bitsandbalance.debugCustomDyeUvInset', 'true'
+			}
+
+            if ((project.findProperty('debugCustomDyeDirectBlit') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugCustomDyeDirectBlit', 'true'
+            }
+            if ((project.findProperty('debugCustomDyeItemAtlasFilter') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugCustomDyeItemAtlasFilter', 'true'
+            }
+
+            if ((project.findProperty('debugLoomBanners') ?: 'false').toString().toBoolean()) {
+                systemProperty 'bitsandbalance.debugLoomBanners', 'true'
+            }
+        }
+    }
+
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // mostly optional in a single mod project
+        // but multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+// NeoForge-specific sources live in the NeoForge module; shared code stays in :common.
+sourceSets {
+    main {
+    java.srcDirs = [
+        project.file('src/main/java'),
+        commonProject.file('src/main/java')
+    ]
+        resources.srcDirs = [
+                project.file('src/main/resources'),
+                commonProject.file('src/main/resources'),
+                commonProject.file('src/generated/resources')
+        ]
+    }
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    doFirst {
+        delete(fileTree(layout.buildDirectory.dir('generated/normalizedRecipeResources')) {
+            include 'data/**/recipe/vertical_slab_from_planks.json'
+            include 'data/**/recipe/vertical_slab_convert.json'
+            include 'data/**/recipe/step_from_slab.json'
+            include 'data/**/recipe/step_convert.json'
+            include 'data/**/recipe/vertical_step_from_vertical_slab.json'
+            include 'data/**/recipe/base_block_recovery.json'
+            include 'data/**/recipes/vertical_slab_from_planks.json'
+            include 'data/**/recipes/vertical_slab_convert.json'
+            include 'data/**/recipes/step_from_slab.json'
+            include 'data/**/recipes/step_convert.json'
+            include 'data/**/recipes/vertical_step_from_vertical_slab.json'
+            include 'data/**/recipes/base_block_recovery.json'
+        })
+    }
+    from(sourceSets.main.resources) {
+        include 'data/**/tags/blocks/**'
+        eachFile { details ->
+            details.path = details.path.replace('/tags/blocks/', '/tags/block/')
+        }
+    }
+    from(sourceSets.main.resources) {
+        include 'data/**/tags/items/**'
+        eachFile { details ->
+            details.path = details.path.replace('/tags/items/', '/tags/item/')
+        }
+    }
+    exclude '.cache/**', '**/*.backup'
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+
+dependencies {
+    // JEI (optional, but needed to compile our JEI integration)
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    // Opt-in only so local 1.21.11 runs do not pick up an incompatible JEI mod by default.
+    if ((project.findProperty('enable_jei_runtime') ?: 'false').toString().toBoolean()) {
+        runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    }
+
+    // Jade (optional, compile-time only)
+    compileOnly "maven.modrinth:jade:${jade_neoforge_version}"
+
+    // Example mod dependency using a mod jar from ./libs with a flat dir repository
+    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
+    // The group id is ignored when searching -- in this case, it is "blank"
+    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
+
+    // Example mod dependency using a file as dependency
+    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
+
+    // Example project dependency using a sister or child project:
+    // implementation project(":myproject")
+
+    // For more info:
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [minecraft_version      : minecraft_version,
+                             minecraft_version_range: minecraft_version_range,
+                             neo_version            : neo_version,
+                             neo_version_range      : neo_version_range,
+                             loader_version_range   : loader_version_range,
+                             mod_id                 : mod_id,
+                             mod_name               : mod_name,
+                             mod_license            : mod_license,
+                             mod_version            : mod_version,
+                             mod_authors            : mod_authors,
+                             mod_description        : mod_description]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from project.file('src/main/templates')
+    into "build/generated/sources/modMetadata"
+}
+
+// Include the output of "generateModMetadata" as an input directory for the build
+// this works with both building through Gradle and the IDE.
+sourceSets.main.resources.srcDir generateModMetadata
+// To avoid having to run "generateModMetadata" manually, make it run on every project reload
+neoForge.ideSyncTask generateModMetadata
+
+// Example configuration to allow publishing using the maven-publish plugin
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+// Ensure dev launcher VM args files exist to prevent missing-file errors when launching dev runs.
+// Some environments may attempt to launch net.neoforged.devlaunch.Main before the plugin generates these files.
+// This task pre-creates empty placeholders so the launcher can read them without failing.
+var prepareDevRunFiles = tasks.register("prepareDevRunFiles") {
+    // Use Provider API for configuration-cache compatibility
+    def clientFile = layout.buildDirectory.file("moddev/clientRunVmArgs.txt")
+    def serverFile = layout.buildDirectory.file("moddev/serverRunVmArgs.txt")
+    outputs.files(clientFile, serverFile)
+    doLast {
+        def client = clientFile.get().asFile
+        def server = serverFile.get().asFile
+        client.parentFile.mkdirs()
+        if (!client.exists()) {
+            client.createNewFile()
+        }
+        if (!server.exists()) {
+            server.createNewFile()
+        }
+    }
+}
+
+// Make all JavaExec-based run tasks depend on prepareDevRunFiles so the files are present before launching.
+// This is a minimal, non-invasive hook that works across runClient/runServer/etc.
+tasks.withType(JavaExec).configureEach {
+    dependsOn(prepareDevRunFiles)
+}
+
+// --- Release publishing (CurseForge + Modrinth) ---
+
+def modVersionProvider = providers.gradleProperty('mod_version')
+def changelogPathProvider = modVersionProvider.map { v -> "CHANGELOG_v${v}.md" }
+def changelogFileProvider = changelogPathProvider.map { path -> rootProject.layout.projectDirectory.file(path).asFile }
+
+tasks.register('validateReleaseChangelog') {
+    group = 'publishing'
+    description = 'Validates that the version changelog exists and matches the current mod_version.'
+    inputs.property('mod_version', modVersionProvider)
+    inputs.file(changelogFileProvider)
+
+    doLast {
+        def modVersion = modVersionProvider.get()
+        def changelogFile = changelogFileProvider.get()
+        if (!changelogFile.exists()) {
+            throw new GradleException("Missing required changelog: ${changelogFile.name} (expected for mod_version=${modVersion})")
+        }
+        def text = changelogFile.getText('UTF-8')
+        def expectedHeader = "# Bits and Balance v${modVersion}".toString()
+        if (!text.contains(expectedHeader)) {
+            throw new GradleException("Changelog ${changelogFile.name} must contain header '${expectedHeader}'")
+        }
+        // Basic sanity checks to avoid accidental/premature publishes.
+        if (text.contains('TODO') || text.contains('WIP') || text.contains('TBD')) {
+            throw new GradleException("Changelog ${changelogFile.name} contains TODO/WIP/TBD markers. Clean it up before publishing.")
+        }
+        if (!text.contains('## ')) {
+            throw new GradleException("Changelog ${changelogFile.name} should contain at least one section header (e.g. '## Major Fixes').")
+        }
+    }
+}
+
+publishMods {
+    // Use the built jar from this project.
+    file = tasks.named('jar').flatMap { it.archiveFile }
+
+    // Read changelog from the per-version file (validated by validateReleaseChangelog).
+    changelog = changelogPathProvider.map { path -> providers.fileContents(rootProject.layout.projectDirectory.file(path)).asText.get() }.get()
+    version = modVersionProvider.get()
+    type = STABLE
+
+    modLoaders.add('neoforge')
+
+    // Fill these in once per project (IDs/tokens are kept out of git).
+    curseforge {
+        accessToken = providers.environmentVariable('CURSEFORGE_TOKEN')
+        projectId = providers.environmentVariable('CURSEFORGE_PROJECT_ID')
+        // projectSlug is optional but recommended if you later add webhooks.
+        projectSlug = providers.environmentVariable('CURSEFORGE_PROJECT_SLUG')
+        minecraftVersions.add(project.minecraft_version)
+    }
+
+    modrinth {
+        accessToken = providers.environmentVariable('MODRINTH_TOKEN')
+        projectId = providers.environmentVariable('MODRINTH_PROJECT_ID')
+        minecraftVersions.add(project.minecraft_version)
+    }
+}
+
+tasks.named('publishMods').configure {
+    dependsOn(tasks.named('validateReleaseChangelog'))
+}

@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "bitsandbalance:azalea_woodset_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "group": "chest",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": "bitsandbalance:azalea_planks"
+  },
+  "result": {
+    "id": "minecraft:chest",
+    "count": 1
+  }
+}

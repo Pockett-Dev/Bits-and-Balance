@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shelf",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "   ",
+    "###"
+  ],
+  "key": {
+    "#": "bitsandbalance:stripped_azalea_log"
+  },
+  "result": {
+    "id": "bitsandbalance:azalea_shelf",
+    "count": 6
+  }
+}

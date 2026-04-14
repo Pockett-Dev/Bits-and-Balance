@@ -1,0 +1,8 @@
+This mod bundles the color name list from the "color-name-list" package (meodai/color-names).
+
+Source:
+- https://github.com/meodai/color-names
+- https://www.npmjs.com/package/color-name-list
+
+The dataset is licensed under the MIT License.
+See: https://github.com/meodai/color-names/blob/main/LICENSE

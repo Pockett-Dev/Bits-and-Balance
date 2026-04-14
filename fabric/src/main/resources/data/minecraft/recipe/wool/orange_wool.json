@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "#minecraft:wool",
+    "#c:dyes/orange"
+  ],
+  "result": {
+    "id": "minecraft:orange_wool",
+    "count": 1
+  }
+}

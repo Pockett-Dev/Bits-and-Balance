@@ -1,0 +1,11 @@
+{
+    "cookingtime":  200,
+    "experience":  0.8,
+    "result":  {
+                   "id":  "minecraft:iron_ingot"
+               },
+    "ingredient":  "bitsandbalance:tuff_iron_ore",
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "iron"
+}

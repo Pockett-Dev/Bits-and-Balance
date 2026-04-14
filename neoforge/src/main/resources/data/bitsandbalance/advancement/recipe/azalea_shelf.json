@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "has_stripped_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bitsandbalance:stripped_azalea_log"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bitsandbalance:azalea_shelf"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_stripped_log",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bitsandbalance:azalea_shelf"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "chest",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": "bitsandbalance:azalea_planks"
+  },
+  "result": {
+    "id": "minecraft:chest",
+    "count": 4
+  }
+}
