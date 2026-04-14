@@ -11,6 +11,8 @@ plugins {
 version = mod_version
 group = mod_group_id
 
+def commonProject = rootProject.project(':common')
+
 base {
     archivesName = "${mod_id}-fabric"
 }
@@ -213,7 +215,7 @@ tasks.withType(JavaCompile).configureEach {
 // This avoids cross-module remapping issues while we incrementally port code.
 sourceSets {
     main {
-        java.srcDir project(':common').file('src/main/java')
+        java.srcDir commonProject.file('src/main/java')
         java.exclude 'org/onenonly/bitsandbalance/fabric/client/FabricMixedSlabModelPlugin.java'
         java.exclude 'org/onenonly/bitsandbalance/common/recipe/BaseBlockRecoveryRecipe.java'
         java.exclude 'org/onenonly/bitsandbalance/common/recipe/StepConvertRecipe.java'
@@ -227,10 +229,10 @@ sourceSets {
         if (!enableJadeCompat.get()) {
             java.exclude 'org/onenonly/bitsandbalance/common/compat/jade/**'
         }
-        resources.srcDir project(':common').file('src/main/resources')
+        resources.srcDir commonProject.file('src/main/resources')
 
         // Include datagen output (tags, etc.) shared across loaders.
-        resources.srcDir project.rootProject.file('src/generated/resources')
+        resources.srcDir commonProject.file('src/generated/resources')
 
     }
 }

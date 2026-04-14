@@ -12,6 +12,8 @@ plugins {
 version = mod_version
 group = mod_group_id
 
+def commonProject = rootProject.project(':common')
+
 def supportedMinecraftVersions = (project.findProperty('supported_minecraft_versions') ?: project.minecraft_version.toString())
     .toString()
     .split(',')
@@ -100,7 +102,7 @@ neoForge {
             gameDirectory = rootProject.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', rootProject.file('src/generated/resources/').getAbsolutePath(), '--existing', rootProject.file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', commonProject.file('src/generated/resources/').getAbsolutePath(), '--existing', rootProject.file('src/main/resources/').getAbsolutePath()
         }
 
         // applies to all the run configs above
@@ -187,7 +189,7 @@ sourceSets {
     main {
         java.srcDirs = [
             rootProject.file('src/main/java'),
-            project(':common').file('src/main/java')
+            commonProject.file('src/main/java')
         ]
         java.exclude 'org/onenonly/bitsandbalance/client/model/**'
         java.exclude 'org/onenonly/bitsandbalance/client/render/**'
@@ -238,8 +240,8 @@ sourceSets {
         }
         resources.srcDirs = [
                 rootProject.file('src/main/resources'),
-                project(':common').file('src/main/resources'),
-                rootProject.file('src/generated/resources')
+                commonProject.file('src/main/resources'),
+                commonProject.file('src/generated/resources')
         ]
     }
 
