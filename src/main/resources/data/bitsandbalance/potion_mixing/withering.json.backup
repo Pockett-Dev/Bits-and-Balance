@@ -1,5 +1,0 @@
-{
-  "input": { "potion": "minecraft:awkward" },
-  "reagent": { "item": "minecraft:wither_rose" },
-  "result": { "potion": "bitsandbalance:withering" }
-}

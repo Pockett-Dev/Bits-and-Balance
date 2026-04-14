@@ -102,7 +102,7 @@ neoForge {
             gameDirectory = rootProject.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', commonProject.file('src/generated/resources/').getAbsolutePath(), '--existing', rootProject.file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', commonProject.file('src/generated/resources/').getAbsolutePath(), '--existing', project.file('src/main/resources/').getAbsolutePath()
         }
 
         // applies to all the run configs above
@@ -184,11 +184,11 @@ neoForge {
     }
 }
 
-// For the initial multi-loader scaffold, NeoForge keeps using the existing root-level sources.
+// NeoForge-specific sources live in the NeoForge module; shared code stays in :common.
 sourceSets {
     main {
         java.srcDirs = [
-            rootProject.file('src/main/java'),
+            project.file('src/main/java'),
             commonProject.file('src/main/java')
         ]
         java.exclude 'org/onenonly/bitsandbalance/client/model/**'
@@ -239,9 +239,9 @@ sourceSets {
             java.exclude 'org/onenonly/bitsandbalance/common/compat/jade/**'
         }
         resources.srcDirs = [
-                rootProject.file('src/main/resources'),
-                commonProject.file('src/main/resources'),
-                commonProject.file('src/generated/resources')
+            project.file('src/main/resources'),
+            commonProject.file('src/main/resources'),
+            commonProject.file('src/generated/resources')
         ]
     }
 
@@ -340,7 +340,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
                              mod_description        : mod_description]
     inputs.properties replaceProperties
     expand replaceProperties
-    from rootProject.file('src/main/templates')
+    from project.file('src/main/templates')
     into "build/generated/sources/modMetadata"
 }
 
