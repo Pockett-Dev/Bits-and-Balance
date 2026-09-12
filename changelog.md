@@ -3,6 +3,7 @@
 ## 2.3.4
 
 - Fixed issue #21
+  - Restored Returning teleportation across dimensions and fixed teleporting to incorrect coordinates.
 
 ## 2.3.3
 
