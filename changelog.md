@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.4
+
+- Fixed issue #21
+
 ## 2.3.3
 
 - Fixed Kiln recipe and Kiln-related recipes not showing up in JEI
