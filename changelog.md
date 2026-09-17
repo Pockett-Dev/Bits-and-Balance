@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.5
+
+- Fixed issue #21 and updated to 26.3
+
 ## 2.3.4
 
 - Fixed issue #21
