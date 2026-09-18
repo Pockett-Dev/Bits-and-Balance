@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.6
+
+- Fixed B&B recipe sync
+- Fixed Azalea tree generation for 26.3
+- Added the Cascading enchantment
+  - Inspired by vein mining; however, instead breaking blocks all at once. It breaks them one by one for a nicer visual cue. :)
+
 ## 2.3.5
 
 - Fixed issue #21 and updated to 26.3
