@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.0
+
+- Fixed issues #24 and #25
+  - Added Litematica and EMI support. However, they may still have some minor issues.
+- Goat Horn Purposes (I really need better name ideas) feature is WIP and disabled within this release.
+- Added Arrow Priority feature which allows you to set which arrow you would like your Bow / Crossbow to use on the fly via a keybind.
+- Added a new recipe for the Enchanting Table which requires two diamond blocks instead of two diamonds. Disabled by default.
+
 ## 2.3.6
 
 - Fixed B&B recipe sync
