@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.1
+
+- Further optimization for Steps, Vertical Steps and Vertical Slabs
+- Fixed Issue #26
+- Added support for AsyncParticles for Steps, Vertical Steps, and Vertical Slabs
+- Added support for Chat Patches' Timestamp feature for BaB Chat Heads
+
 ## 2.4.0
 
 - Fixed issues #24 and #25
