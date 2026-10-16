@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.2
+
+**Back up your world before updating, just in case!**
+
+- Fixed Enhanced Slab features (Steps, Mixed Slabs, etc) not being able to be copied via mods like WorldEdit, Litematica, etc. Tested with WorldEdit and Litematica. Tested world conversions between 2.4.0 and 2.4.1 to 2.4.2. Should work perfectly.
+- New Ore-Smelting XP increase feature (I am terrible with names) with configurable amounts. Providing Silk Touch with a little more use.
+- New Glow Goo decay feature that is disabled by default. In preparation for another upcoming feature. :)
+
 ## 2.4.1
 
 - Further optimization for Steps, Vertical Steps and Vertical Slabs
