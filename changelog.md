@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.3
+
+-Fixed issue #28
+
 ## 2.4.2
 
 **Back up your world before updating, just in case!**
