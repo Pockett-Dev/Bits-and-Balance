@@ -19,7 +19,7 @@ On Linux/macOS, use `./gradlew` with the same arguments. Artifacts are written t
 | 1.21.11 | `1.21.11-fabric` | `1.21.11-neoforge` |
 | 26.1 | `26.1-fabric` | `26.1-neoforge` |
 | 26.2 | `26.2-fabric` | `26.2-neoforge` |
-| 26.3 | `26.3-fabric` | ? |
+| 26.3 | `26.3-fabric` | Meh |
 
 These are configured development targets; they do not all have the same release or runtime validation coverage. Fabric 26.x currently requires pre-existing Minecraft artifacts and metadata under `.gradle-user-home/caches/fabric-loom/`; its custom build path does not yet bootstrap an empty cache.
 
