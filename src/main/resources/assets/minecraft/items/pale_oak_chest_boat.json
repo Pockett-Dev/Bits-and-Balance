@@ -1,0 +1,21 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "bitsandbalance:item/pale_oak_chest_boat_hull",
+        "tints": [
+          {
+            "type": "minecraft:constant",
+            "value": -2
+          }
+        ]
+      },
+      {
+        "type": "minecraft:model",
+        "model": "bitsandbalance:item/pale_oak_chest_boat_chest"
+      }
+    ]
+  }
+}

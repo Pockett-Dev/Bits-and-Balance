@@ -1,0 +1,225 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:loot_table",
+              "value": {
+                "type": "minecraft:archaeology",
+                "pools": [
+                  {
+                    "entries": [
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:angler_pottery_sherd",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:shelter_pottery_sherd",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:snort_pottery_sherd",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:sniffer_egg",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/ocean_ruin_warm",
+                        "weight": 1
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/ocean_ruin_warm",
+                        "weight": 2
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/ocean_ruin_warm",
+                        "weight": 2
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/ocean_ruin_warm",
+                        "weight": 2
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/ocean_ruin_warm",
+                        "weight": 2
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/ocean_ruin_warm",
+                        "weight": 2
+                      }
+                    ],
+                    "rolls": 1.0
+                  }
+                ],
+                "random_sequence": "minecraft:archaeology/ocean_ruin_warm"
+              },
+              "conditions": [
+                {
+                  "condition": "bitsandbalance:brushing_loot",
+                  "site": "ocean_ruin_warm"
+                }
+              ]
+            },
+            {
+              "type": "minecraft:loot_table",
+              "value": {
+                "type": "minecraft:archaeology",
+                "pools": [
+                  {
+                    "entries": [
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:angler_pottery_sherd",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:shelter_pottery_sherd",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:snort_pottery_sherd",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:sniffer_egg",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:iron_axe",
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:emerald",
+                        "weight": 2,
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:wheat",
+                        "weight": 2,
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:wooden_hoe",
+                        "weight": 2,
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:coal",
+                        "weight": 2,
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:gold_nugget",
+                        "weight": 2,
+                        "functions": [
+                          {
+                            "function": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      }
+                    ],
+                    "rolls": 1.0
+                  }
+                ],
+                "random_sequence": "minecraft:archaeology/ocean_ruin_warm"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:archaeology/ocean_ruin_warm"
+}

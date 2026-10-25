@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:lingering_potion",
+                  "potion_contents":  {
+                                          "potions":  "bitsandbalance:glowing"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:long_glowing"
+                                                                    }
+                                  },
+                   "id":  "minecraft:lingering_potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:redstone"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "glowing"
+                                   }
+                               ]
+}

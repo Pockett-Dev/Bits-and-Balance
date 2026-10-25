@@ -1,0 +1,11 @@
+{
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "redstone",
+    "ingredient":  "bitsandbalance:diorite_redstone_ore",
+    "result":  {
+                   "id":  "minecraft:redstone"
+               },
+    "experience":  0.8,
+    "cookingtime":  100
+}

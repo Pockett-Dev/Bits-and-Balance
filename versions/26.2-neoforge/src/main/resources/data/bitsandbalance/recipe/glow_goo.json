@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "bitsandbalance:glow_goo_enabled"
+    },
+    {
+      "type": "bitsandbalance:glow_goo_two_glow_ink_recipe_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:slime_ball",
+    "minecraft:glow_ink_sac",
+    "minecraft:glow_ink_sac"
+  ],
+  "result": {
+    "id": "bitsandbalance:glow_goo",
+    "count": 2
+  }
+}

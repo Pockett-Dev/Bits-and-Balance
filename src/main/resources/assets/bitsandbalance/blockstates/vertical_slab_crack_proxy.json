@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "bitsandbalance:block/vertical_slab_geometry_north" },
+    "facing=south": { "model": "bitsandbalance:block/vertical_slab_geometry_south" },
+    "facing=west":  { "model": "bitsandbalance:block/vertical_slab_geometry_west" },
+    "facing=east":  { "model": "bitsandbalance:block/vertical_slab_geometry_east" }
+  }
+}

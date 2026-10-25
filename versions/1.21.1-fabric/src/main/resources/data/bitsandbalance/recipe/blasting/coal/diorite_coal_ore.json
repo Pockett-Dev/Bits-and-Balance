@@ -1,0 +1,13 @@
+{
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "coal",
+    "ingredient":  {
+                       "item":  "bitsandbalance:diorite_coal_ore"
+                   },
+    "result":  {
+                   "id":  "minecraft:coal"
+               },
+    "experience":  0.2,
+    "cookingtime":  100
+}

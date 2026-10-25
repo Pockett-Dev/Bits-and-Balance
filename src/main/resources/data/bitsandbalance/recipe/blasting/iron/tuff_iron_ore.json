@@ -1,0 +1,11 @@
+{
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "iron",
+    "ingredient":  "bitsandbalance:tuff_iron_ore",
+    "result":  {
+                   "id":  "minecraft:iron_ingot"
+               },
+    "experience":  0.8,
+    "cookingtime":  100
+}

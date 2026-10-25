@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:lingering_potion",
+                  "potion_contents":  {
+                                          "potions":  "minecraft:long_swiftness"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:haste"
+                                                                    }
+                                  },
+                   "id":  "minecraft:lingering_potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:quartz"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "haste"
+                                   }
+                               ]
+}

@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,lit=false": { "model": "bitsandbalance:block/kiln" },
+    "facing=east,lit=false":  { "model": "bitsandbalance:block/kiln", "y": 90 },
+    "facing=south,lit=false": { "model": "bitsandbalance:block/kiln", "y": 180 },
+    "facing=west,lit=false":  { "model": "bitsandbalance:block/kiln", "y": 270 },
+    "facing=north,lit=true":  { "model": "bitsandbalance:block/kiln_on" },
+    "facing=east,lit=true":   { "model": "bitsandbalance:block/kiln_on", "y": 90 },
+    "facing=south,lit=true":  { "model": "bitsandbalance:block/kiln_on", "y": 180 },
+    "facing=west,lit=true":   { "model": "bitsandbalance:block/kiln_on", "y": 270 }
+  }
+}

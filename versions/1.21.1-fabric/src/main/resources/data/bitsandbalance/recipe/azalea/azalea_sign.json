@@ -1,0 +1,22 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "group":  "sign",
+    "category":  "decorations",
+    "pattern":  [
+                    "PPP",
+                    "PPP",
+                    " S "
+                ],
+    "key":  {
+                "P":  {
+                          "item":  "bitsandbalance:azalea_planks"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      }
+            },
+    "result":  {
+                   "id":  "bitsandbalance:azalea_sign",
+                   "count":  3
+               }
+}

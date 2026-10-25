@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "bitsandbalance:levitation" },
+  "reagent": { "item": "minecraft:redstone" },
+  "result": { "potion": "bitsandbalance:long_levitation" }
+}

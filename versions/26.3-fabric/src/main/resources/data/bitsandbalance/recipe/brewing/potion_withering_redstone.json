@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:potion",
+                  "potion_contents":  {
+                                          "potions":  "bitsandbalance:withering"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:long_withering"
+                                                                    }
+                                  },
+                   "id":  "minecraft:potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:redstone"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "withering"
+                                   }
+                               ]
+}

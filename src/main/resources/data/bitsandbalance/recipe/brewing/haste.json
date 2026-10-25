@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:brewing",
+  "input": "minecraft:swiftness",
+  "reagent": "minecraft:quartz",
+  "output": "bitsandbalance:haste"
+}

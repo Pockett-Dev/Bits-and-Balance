@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "BFB",
+    "MMM"
+  ],
+  "key": {
+    "S": "minecraft:smooth_stone_slab",
+    "B": "minecraft:bricks",
+    "F": "minecraft:furnace",
+    "M": "minecraft:mud_bricks"
+  },
+  "result": {
+    "id": "bitsandbalance:kiln",
+    "count": 1
+  }
+}

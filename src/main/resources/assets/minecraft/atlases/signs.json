@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "bitsandbalance:entity/signs/azalea"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "bitsandbalance:entity/signs/hanging/azalea"
+    }
+  ]
+}

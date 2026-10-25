@@ -1,0 +1,21 @@
+{
+  "values": [
+    "bitsandbalance:andesite_coal_ore",
+    "bitsandbalance:diorite_coal_ore",
+    "bitsandbalance:granite_coal_ore",
+    "bitsandbalance:tuff_coal_ore",
+    "bitsandbalance:andesite_iron_ore",
+    "bitsandbalance:diorite_iron_ore",
+    "bitsandbalance:granite_iron_ore",
+    "bitsandbalance:tuff_iron_ore",
+    "bitsandbalance:andesite_copper_ore",
+    "bitsandbalance:diorite_copper_ore",
+    "bitsandbalance:granite_copper_ore",
+    "bitsandbalance:tuff_copper_ore",
+    "bitsandbalance:andesite_lapis_ore",
+    "bitsandbalance:diorite_lapis_ore",
+    "bitsandbalance:granite_lapis_ore",
+    "bitsandbalance:tuff_lapis_ore",
+    "bitsandbalance:raw_quartz_block"
+  ]
+}

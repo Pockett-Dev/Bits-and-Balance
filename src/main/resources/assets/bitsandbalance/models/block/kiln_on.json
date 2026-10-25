@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "bottom": "bitsandbalance:block/kiln_bottom",
+    "top": "bitsandbalance:block/kiln_top_on",
+    "front": "bitsandbalance:block/kiln_front_on",
+    "side": "bitsandbalance:block/kiln_side",
+    "particle": "bitsandbalance:block/kiln_side"
+  }
+}

@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:splash_potion",
+                  "potion_contents":  {
+                                          "potions":  "bitsandbalance:glowing"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:bioluminescence"
+                                                                    }
+                                  },
+                   "id":  "minecraft:splash_potion"
+               },
+    "reagent":  {
+                    "item":  "bitsandbalance:glow_goo"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "bioluminescence"
+                                   }
+                               ]
+}

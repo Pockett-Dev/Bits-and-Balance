@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bitsandbalance:raw_quartz_block"
+    }
+  ],
+  "result": {
+    "id": "minecraft:quartz",
+    "count": 9
+  }
+}

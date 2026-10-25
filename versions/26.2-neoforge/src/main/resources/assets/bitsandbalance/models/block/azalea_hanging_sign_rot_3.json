@@ -1,0 +1,254 @@
+{
+    "parent":  "minecraft:block/block",
+    "ambientocclusion":  false,
+    "elements":  [
+                     {
+                         "from":  [
+                                      1,
+                                      0,
+                                      7
+                                  ],
+                         "to":  [
+                                    15,
+                                    10,
+                                    9
+                                ],
+                         "rotation":  {
+                                          "angle":  -67.5,
+                                          "axis":  "y",
+                                          "origin":  [
+                                                         8,
+                                                         0,
+                                                         8
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                4.5,
+                                                                7,
+                                                                8,
+                                                                12
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               4,
+                                                               7,
+                                                               4.5,
+                                                               12
+                                                           ],
+                                                    "texture":  "#all"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                0.5,
+                                                                7,
+                                                                4,
+                                                                12
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               0,
+                                                               7,
+                                                               0.5,
+                                                               12
+                                                           ],
+                                                    "texture":  "#all"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.5,
+                                                             6,
+                                                             4,
+                                                             7
+                                                         ],
+                                                  "texture":  "#all"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               4,
+                                                               7,
+                                                               7.5,
+                                                               6
+                                                           ],
+                                                    "texture":  "#all",
+                                                    "cullface":  "down"
+                                                }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      2.96447,
+                                      10,
+                                      4.46447
+                                  ],
+                         "to":  [
+                                    5.96447,
+                                    16,
+                                    4.46447
+                                ],
+                         "rotation":  {
+                                          "angle":  -22.5,
+                                          "axis":  "y",
+                                          "origin":  [
+                                                         8,
+                                                         0,
+                                                         8
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                0.75,
+                                                                3,
+                                                                0,
+                                                                6
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "south":  {
+                                                     "uv":  [
+                                                                0,
+                                                                3,
+                                                                0.75,
+                                                                6
+                                                            ],
+                                                     "texture":  "#all"
+                                                 }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      2.96447,
+                                      11,
+                                      11.53553
+                                  ],
+                         "to":  [
+                                    5.96447,
+                                    15,
+                                    11.53553
+                                ],
+                         "rotation":  {
+                                          "x":  180,
+                                          "y":  -67.5,
+                                          "z":  -180,
+                                          "origin":  [
+                                                         8,
+                                                         0,
+                                                         8
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                2.25,
+                                                                3.5,
+                                                                1.5,
+                                                                5.5
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "south":  {
+                                                     "uv":  [
+                                                                1.5,
+                                                                3.5,
+                                                                2.25,
+                                                                5.5
+                                                            ],
+                                                     "texture":  "#all"
+                                                 }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      10.03553,
+                                      10,
+                                      11.53553
+                                  ],
+                         "to":  [
+                                    13.03553,
+                                    16,
+                                    11.53553
+                                ],
+                         "rotation":  {
+                                          "angle":  -22.5,
+                                          "axis":  "y",
+                                          "origin":  [
+                                                         8,
+                                                         0,
+                                                         8
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                0.75,
+                                                                3,
+                                                                0,
+                                                                6
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "south":  {
+                                                     "uv":  [
+                                                                0,
+                                                                3,
+                                                                0.75,
+                                                                6
+                                                            ],
+                                                     "texture":  "#all"
+                                                 }
+                                   }
+                     },
+                     {
+                         "from":  [
+                                      10.03553,
+                                      11,
+                                      4.46447
+                                  ],
+                         "to":  [
+                                    13.03553,
+                                    15,
+                                    4.46447
+                                ],
+                         "rotation":  {
+                                          "x":  180,
+                                          "y":  -67.5,
+                                          "z":  -180,
+                                          "origin":  [
+                                                         8,
+                                                         0,
+                                                         8
+                                                     ]
+                                      },
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                2.25,
+                                                                3.5,
+                                                                1.5,
+                                                                5.5
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "south":  {
+                                                     "uv":  [
+                                                                1.5,
+                                                                3.5,
+                                                                2.25,
+                                                                5.5
+                                                            ],
+                                                     "texture":  "#all"
+                                                 }
+                                   }
+                     }
+                 ],
+    "textures":  {
+                     "all":  "bitsandbalance:entity/signs/hanging/azalea",
+                     "particle":  "bitsandbalance:block/stripped_azalea_log"
+                 }
+}

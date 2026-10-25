@@ -1,0 +1,71 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:oak_leaves",
+    "minecraft:dark_oak_leaves",
+    "minecraft:jungle_leaves",
+    "minecraft:acacia_leaves",
+    "minecraft:mangrove_leaves",
+    "minecraft:vine",
+    {
+      "id": "minecraft:leaf_litter",
+      "required": false
+    },
+    {
+      "id": "minecraft:bush",
+      "required": false
+    },
+    {
+      "id": "minecraft:firefly_bush",
+      "required": false
+    },
+    {
+      "id": "wilderwild:baobab_leaves",
+      "required": false
+    },
+    {
+      "id": "vinery:red_grape_bush",
+      "required": false
+    },
+    {
+      "id": "vinery:white_grape_bush",
+      "required": false
+    },
+    {
+      "id": "vinery:jungle_grape_bush_red",
+      "required": false
+    },
+    {
+      "id": "vinery:jungle_grape_bush_white",
+      "required": false
+    },
+    {
+      "id": "vinery:savanna_grape_bush_red",
+      "required": false
+    },
+    {
+      "id": "vinery:savanna_grape_bush_white",
+      "required": false
+    },
+    {
+      "id": "vinery:taiga_grape_bush_red",
+      "required": false
+    },
+    {
+      "id": "vinery:taiga_grape_bush_white",
+      "required": false
+    },
+    {
+      "id": "vinery:grapevine_leaves",
+      "required": false
+    },
+    {
+      "id": "vinery:grapevine_stem",
+      "required": false
+    },
+    {
+      "id": "vinery:empty_red_vine",
+      "required": false
+    }
+  ]
+}

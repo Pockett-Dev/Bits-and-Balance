@@ -1,0 +1,11 @@
+{
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "lapis",
+    "ingredient":  "bitsandbalance:diorite_lapis_ore",
+    "result":  {
+                   "id":  "minecraft:lapis_lazuli"
+               },
+    "experience":  0.4,
+    "cookingtime":  200
+}

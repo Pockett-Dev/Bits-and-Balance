@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "bitsandbalance:block/vertical_slab"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "gold",
+    "ingredient":  {
+                       "item":  "bitsandbalance:diorite_gold_ore"
+                   },
+    "result":  {
+                   "id":  "minecraft:gold_ingot"
+               },
+    "experience":  1.2,
+    "cookingtime":  200
+}

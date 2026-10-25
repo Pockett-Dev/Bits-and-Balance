@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:lingering_potion",
+                  "potion_contents":  {
+                                          "potions":  "minecraft:awkward"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:glowing"
+                                                                    }
+                                  },
+                   "id":  "minecraft:lingering_potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:glow_berries"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "glowing"
+                                   }
+                               ]
+}

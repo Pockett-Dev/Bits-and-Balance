@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "bitsandbalance:step",
+    "bitsandbalance:vertical_step",
+    "bitsandbalance:quad_step",
+    "bitsandbalance:quad_vertical_step",
+    {
+      "id": "#bitsandbalance:steps",
+      "required": false
+    },
+    {
+      "id": "#bitsandbalance:vertical_steps",
+      "required": false
+    }
+  ]
+}

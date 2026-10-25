@@ -1,0 +1,27 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "minecraft:item/pale_oak_hanging_sign_chains",
+        "tints": [
+          {
+            "type": "minecraft:constant",
+            "value": 16777215
+          }
+        ]
+      },
+      {
+        "type": "minecraft:model",
+        "model": "minecraft:item/pale_oak_hanging_sign_wood",
+        "tints": [
+          {
+            "type": "minecraft:constant",
+            "value": -2
+          }
+        ]
+      }
+    ]
+  }
+}

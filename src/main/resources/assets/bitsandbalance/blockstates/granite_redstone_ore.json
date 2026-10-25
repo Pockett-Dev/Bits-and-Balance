@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "bitsandbalance:block/granite_redstone_ore"
+    },
+    "lit=true": {
+      "model": "bitsandbalance:block/granite_redstone_ore"
+    }
+  }
+}
+

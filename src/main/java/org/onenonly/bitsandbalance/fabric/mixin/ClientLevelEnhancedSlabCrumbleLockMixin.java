@@ -1,0 +1,95 @@
+package org.onenonly.bitsandbalance.fabric.mixin;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.phys.BlockHitResult;
+import org.onenonly.bitsandbalance.common.blockentity.EnhancedSlabMaterialSavedData;
+import org.onenonly.bitsandbalance.common.blockentity.EnhancedSlabMaterialSavedData;
+import org.onenonly.bitsandbalance.common.blocks.MixedSlabBlock;
+import org.onenonly.bitsandbalance.common.blocks.StepBlock;
+import org.onenonly.bitsandbalance.common.blocks.VerticalSlabBlock;
+import org.onenonly.bitsandbalance.common.blocks.VerticalStepBlock;
+import org.onenonly.bitsandbalance.common.mechanics.EnhancedSlabCrumbleState;
+import org.onenonly.bitsandbalance.common.mechanics.EnhancedSlabHelper;
+import org.onenonly.bitsandbalance.fabric.config.FabricTweaksConfig;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+/**
+ * Locks the slab-half used for the crumbling overlay for the duration of mining.
+ *
+ * Without this, per-frame targeted-half selection can flap (especially near the 0.5 seam),
+ * causing the destroy-stage overlay to appear to flicker.
+ */
+@Mixin(ClientLevel.class)
+public abstract class ClientLevelEnhancedSlabCrumbleLockMixin {
+
+    @Inject(method = "destroyBlockProgress", at = @At("HEAD"))
+    private void bitsandbalance$lockHalfForCrumbling(int entityId, BlockPos pos, int progress, CallbackInfo ci) {
+        if (!FabricTweaksConfig.enableEnhancedSlabs) return;
+
+        if (progress < 0) {
+            EnhancedSlabCrumbleState.clear(pos);
+            return;
+        }
+
+        if (EnhancedSlabCrumbleState.has(pos)) {
+            return;
+        }
+
+        ClientLevel level = (ClientLevel) (Object) this;
+        BlockState state = level.getBlockState(pos);
+        if (state == null || state.isAir()) {
+            EnhancedSlabCrumbleState.clear(pos);
+            return;
+        }
+
+        Minecraft minecraft = Minecraft.getInstance();
+        Player player = minecraft.player;
+
+        SlabType targetedHalf = SlabType.BOTTOM;
+        if (player != null && minecraft.hitResult instanceof BlockHitResult bhr && pos.equals(bhr.getBlockPos())) {
+            targetedHalf = EnhancedSlabHelper.getTargetedHalf(pos, bhr.getLocation());
+        } else if (player != null) {
+            targetedHalf = EnhancedSlabHelper.getTargetedHalfFromRayToFullCube(player, pos);
+        }
+
+        BlockState locked = null;
+
+        if (FabricTweaksConfig.enhancedSlabsMixedDoubleSlabs && state.getBlock() instanceof MixedSlabBlock) {
+            {
+                BlockState[] stored = EnhancedSlabMaterialSavedData.getClient(level, pos.asLong());
+                locked = targetedHalf == SlabType.TOP ? bitsandbalance$crumbleSlot(stored, 1) : bitsandbalance$crumbleSlot(stored, 0);
+                locked = bitsandbalance$crumbleSlabHalf(locked, targetedHalf);
+            }
+        } else if (FabricTweaksConfig.enhancedSlabsKneeSlabMining
+                && player != null && player.isShiftKeyDown()
+                && state.getBlock() instanceof SlabBlock
+                && EnhancedSlabHelper.isDoubleSlab(state)) {
+            locked = EnhancedSlabHelper.getHalfSlabState(state, targetedHalf);
+        }
+
+        if (locked != null) {
+            EnhancedSlabCrumbleState.set(pos, locked);
+        }
+    }
+
+    private static BlockState bitsandbalance$crumbleSlabHalf(BlockState state, SlabType half) {
+        if (state != null && state.hasProperty(SlabBlock.TYPE)) {
+            return state.setValue(SlabBlock.TYPE, half);
+        }
+        return state;
+    }
+
+    private static BlockState bitsandbalance$crumbleSlot(BlockState[] slots, int index) {
+        return slots != null && index >= 0 && index < slots.length ? slots[index] : null;
+    }
+
+}

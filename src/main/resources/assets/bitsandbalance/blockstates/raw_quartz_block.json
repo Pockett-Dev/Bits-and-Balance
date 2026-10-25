@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bitsandbalance:block/raw_quartz_block"
+    }
+  }
+}

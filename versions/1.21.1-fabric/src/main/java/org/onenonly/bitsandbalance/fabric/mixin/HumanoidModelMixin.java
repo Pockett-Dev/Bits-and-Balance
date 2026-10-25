@@ -1,0 +1,41 @@
+package org.onenonly.bitsandbalance.fabric.mixin;
+
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import org.onenonly.bitsandbalance.fabric.client.FabricClientState;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(HumanoidModel.class)
+public abstract class HumanoidModelMixin<T extends LivingEntity> {
+
+    @Shadow public ModelPart rightLeg;
+    @Shadow public ModelPart leftLeg;
+    @Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
+    private void bitsandbalance$applyVisualSitting(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
+        if (!(entity instanceof Player player)) return;
+
+        boolean sitting = FabricClientState.sitting || FabricClientState.SYNCED_SITTING_PLAYERS.contains(player.getUUID());
+        if (!sitting || player.isPassenger()) return;
+
+        try {
+            float xr = -1.4137167F;
+            float yr = 0.31415927F;
+            float zr = 0.07853982F;
+
+            this.rightLeg.xRot = xr;
+            this.rightLeg.yRot = yr;
+            this.rightLeg.zRot = zr;
+
+            this.leftLeg.xRot = xr;
+            this.leftLeg.yRot = -yr;
+            this.leftLeg.zRot = -zr;
+        } catch (Throwable ignored) {
+        }
+    }
+}

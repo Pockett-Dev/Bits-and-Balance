@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "bitsandbalance:azalea_woodset_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_button",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": "bitsandbalance:azalea_planks"
+  },
+  "result": {
+    "id": "bitsandbalance:azalea_button",
+    "count": 1
+  }
+}

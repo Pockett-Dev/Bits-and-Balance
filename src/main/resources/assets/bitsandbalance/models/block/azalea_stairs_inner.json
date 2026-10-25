@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "bitsandbalance:block/azalea_planks",
+    "top": "bitsandbalance:block/azalea_planks",
+    "side": "bitsandbalance:block/azalea_planks"
+  }
+}

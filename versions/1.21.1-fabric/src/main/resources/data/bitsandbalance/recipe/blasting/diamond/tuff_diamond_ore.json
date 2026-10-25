@@ -1,0 +1,13 @@
+{
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "diamond",
+    "ingredient":  {
+                       "item":  "bitsandbalance:tuff_diamond_ore"
+                   },
+    "result":  {
+                   "id":  "minecraft:diamond"
+               },
+    "experience":  1.2,
+    "cookingtime":  100
+}

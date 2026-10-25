@@ -1,0 +1,13 @@
+{
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "emerald",
+    "ingredient":  {
+                       "item":  "bitsandbalance:andesite_emerald_ore"
+                   },
+    "result":  {
+                   "id":  "minecraft:emerald"
+               },
+    "experience":  1.2,
+    "cookingtime":  100
+}

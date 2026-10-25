@@ -1,0 +1,11 @@
+{
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "emerald",
+    "ingredient":  "bitsandbalance:tuff_emerald_ore",
+    "result":  {
+                   "id":  "minecraft:emerald"
+               },
+    "experience":  1.2,
+    "cookingtime":  200
+}

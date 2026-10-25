@@ -1,0 +1,11 @@
+{
+    "type":  "minecraft:smelting",
+    "category":  "misc",
+    "group":  "diamond",
+    "ingredient":  "bitsandbalance:diorite_diamond_ore",
+    "result":  {
+                   "id":  "minecraft:diamond"
+               },
+    "experience":  1.2,
+    "cookingtime":  200
+}

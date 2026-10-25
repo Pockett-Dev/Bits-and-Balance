@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:splash_potion",
+                  "potion_contents":  {
+                                          "potions":  "bitsandbalance:strong_bioluminescence"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:long_strong_bioluminescence"
+                                                                    }
+                                  },
+                   "id":  "minecraft:splash_potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:redstone"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "bioluminescence"
+                                   }
+                               ]
+}

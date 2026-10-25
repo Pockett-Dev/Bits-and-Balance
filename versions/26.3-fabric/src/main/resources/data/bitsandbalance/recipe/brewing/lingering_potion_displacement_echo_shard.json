@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:lingering_potion",
+                  "potion_contents":  {
+                                          "potions":  "bitsandbalance:displacement"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:returning"
+                                                                    }
+                                  },
+                   "id":  "minecraft:lingering_potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:echo_shard"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "returning"
+                                   }
+                               ]
+}

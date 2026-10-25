@@ -1,0 +1,24 @@
+{
+  "values": [
+    "bitsandbalance:andesite_gold_ore",
+    "bitsandbalance:diorite_gold_ore",
+    "bitsandbalance:granite_gold_ore",
+    "bitsandbalance:tuff_gold_ore",
+    "bitsandbalance:andesite_diamond_ore",
+    "bitsandbalance:diorite_diamond_ore",
+    "bitsandbalance:granite_diamond_ore",
+    "bitsandbalance:tuff_diamond_ore",
+    "bitsandbalance:andesite_emerald_ore",
+    "bitsandbalance:diorite_emerald_ore",
+    "bitsandbalance:granite_emerald_ore",
+    "bitsandbalance:tuff_emerald_ore",
+    "bitsandbalance:andesite_redstone_ore",
+    "bitsandbalance:diorite_redstone_ore",
+    "bitsandbalance:granite_redstone_ore",
+    "bitsandbalance:tuff_redstone_ore",
+    "bitsandbalance:andesite_zinc_ore",
+    "bitsandbalance:diorite_zinc_ore",
+    "bitsandbalance:granite_zinc_ore",
+    "bitsandbalance:tuff_zinc_ore"
+  ]
+}

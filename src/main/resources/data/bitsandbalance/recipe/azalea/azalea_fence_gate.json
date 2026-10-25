@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "bitsandbalance:azalea_woodset_enabled"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_fence_gate",
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
+  "key": {
+    "#": "minecraft:stick",
+    "W": "bitsandbalance:azalea_planks"
+  },
+  "result": {
+    "id": "bitsandbalance:azalea_fence_gate",
+    "count": 1
+  }
+}

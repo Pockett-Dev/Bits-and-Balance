@@ -1,0 +1,193 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:loot_table",
+              "value": {
+                "type": "minecraft:archaeology",
+                "pools": [
+                  {
+                    "entries": [
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:archer_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:miner_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:prize_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:skull_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:diamond",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/desert_pyramid",
+                        "weight": 1
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/desert_pyramid",
+                        "weight": 1
+                      },
+                      {
+                        "type": "minecraft:loot_table",
+                        "value": "bitsandbalance:archaeology/rewards/desert_pyramid",
+                        "weight": 1
+                      }
+                    ],
+                    "rolls": 1
+                  }
+                ],
+                "random_sequence": "minecraft:archaeology/desert_pyramid"
+              },
+              "condition": {
+                "type": "bitsandbalance:brushing_loot",
+                "site": "desert_pyramid"
+              }
+            },
+            {
+              "type": "minecraft:loot_table",
+              "value": {
+                "type": "minecraft:archaeology",
+                "pools": [
+                  {
+                    "entries": [
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:archer_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:miner_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:prize_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:skull_pottery_sherd",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:diamond",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": true
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:tnt",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:gunpowder",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "minecraft:item",
+                        "name": "minecraft:emerald",
+                        "modifier": [
+                          {
+                            "type": "bitsandbalance:brush_fortune",
+                            "rare": false
+                          }
+                        ]
+                      }
+                    ],
+                    "rolls": 1
+                  }
+                ],
+                "random_sequence": "minecraft:archaeology/desert_pyramid"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:archaeology/desert_pyramid"
+}

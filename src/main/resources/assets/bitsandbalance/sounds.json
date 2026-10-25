@@ -1,0 +1,17 @@
+{
+  "xp_old": {
+    "sounds": [
+      {
+        "name": "bitsandbalance:xp_old"
+      }
+    ]
+  },
+  "music_disc.dog": {
+    "sounds": [
+      {
+        "name": "bitsandbalance:music_disc/dog",
+        "stream": true
+      }
+    ]
+  }
+}

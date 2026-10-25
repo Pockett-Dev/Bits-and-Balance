@@ -1,0 +1,80 @@
+{
+    "parent":  "minecraft:block/block",
+    "ambientocclusion":  false,
+    "elements":  [
+                     {
+                         "from":  [
+                                      0,
+                                      4.33333,
+                                      0.33333
+                                  ],
+                         "to":  [
+                                    16,
+                                    12.33333,
+                                    1.66667
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "uv":  [
+                                                                7,
+                                                                1,
+                                                                13,
+                                                                7
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "east":  {
+                                                    "uv":  [
+                                                               6.5,
+                                                               1,
+                                                               7,
+                                                               7
+                                                           ],
+                                                    "texture":  "#all",
+                                                    "cullface":  "east"
+                                                },
+                                       "south":  {
+                                                     "uv":  [
+                                                                0.5,
+                                                                1,
+                                                                6.5,
+                                                                7
+                                                            ],
+                                                     "texture":  "#all"
+                                                 },
+                                       "west":  {
+                                                    "uv":  [
+                                                               0,
+                                                               1,
+                                                               0.5,
+                                                               7
+                                                           ],
+                                                    "texture":  "#all",
+                                                    "cullface":  "west"
+                                                },
+                                       "up":  {
+                                                  "uv":  [
+                                                             0.5,
+                                                             0,
+                                                             6.5,
+                                                             1
+                                                         ],
+                                                  "texture":  "#all"
+                                              },
+                                       "down":  {
+                                                    "uv":  [
+                                                               6.5,
+                                                               1,
+                                                               12.5,
+                                                               0
+                                                           ],
+                                                    "texture":  "#all"
+                                                }
+                                   }
+                     }
+                 ],
+    "textures":  {
+                     "all":  "bitsandbalance:entity/signs/azalea",
+                     "particle":  "bitsandbalance:block/azalea_planks"
+                 }
+}

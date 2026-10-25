@@ -1,0 +1,5 @@
+{
+  "input": { "potion": "minecraft:awkward" },
+  "reagent": { "item": "minecraft:ender_eye" },
+  "result": { "potion": "bitsandbalance:displacement" }
+}

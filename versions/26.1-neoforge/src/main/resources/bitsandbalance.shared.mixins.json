@@ -1,0 +1,43 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.onenonly.bitsandbalance.mixin",
+  "plugin": "org.onenonly.bitsandbalance.mixin.BitsAndBalanceSharedMixinPlugin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "bitsandbalance.refmap.json",
+  "mixins": [
+    "BrushableBlockDropsMixin",
+    "BlindnessMobTargetMixin",
+    "BlindnessSensingMixin",
+    "BlindnessTargetingConditionsMixin",
+    "AbstractCookingRecipeOreSmeltingXpMixin",
+    "EnhancedSlabBlockEntityLevelMixin",
+    "AbstractFurnaceBlockEntityKilnMixin",
+    "ArrowAccessor",
+    "CascadingMaxLevelMixin",
+    "BlockEntityTypeKilnValidMixin",
+    "BlockDisplayAccessMixin",
+    "BottleOfCloudServerLevelTickMixin",
+    "InventoryAccessor",
+    "MannequinProfileInvoker",
+    "LivingEntityBioluminescenceSyncMixin",
+    "LivingEntityCloudBlockTouchCleanupMixin"
+  ],
+  "client": [
+    "AbstractCandleBlockSoulFlameMixin",
+    "AbstractSignEditScreenAccessor",
+    "AbstractWidgetKeybindScrollMixin",
+    "BioluminescenceEntityRendererMixin",
+    "LambDynamicLightsEntityRendererMixin",
+    "BlockEntityRenderStateAccessor",
+    "ClientTextTooltipAccessor",
+    "EntityRendererSoulFireFlamesMixin",
+    "EntityRenderStateSoulFireMixin",
+    "ItemStackRenderStateAccessor",
+    "ModelPartAccessor",
+    "MovingBlockRenderStateCandleBundleTintMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

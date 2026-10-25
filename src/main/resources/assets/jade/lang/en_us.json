@@ -1,0 +1,18 @@
+{
+  "config.jade.plugin_bitsandbalance.candle_bundle_cycle": "Candle Bundle: Cycle Selection",
+  "config.jade.plugin_bitsandbalance.tinted_vanilla_item_mod_name": "Tinted Vanilla Item: Show Mod Name",
+  "config.jade.plugin_bitsandbalance.mixed_slab_name": "Mixed Slab: Display Name",
+  "config.jade.plugin_bitsandbalance.vertical_slab_name": "Vertical Slab: Display Name",
+  "config.jade.plugin_bitsandbalance.vertical_slab_harvest_tool": "Vertical Slab: Harvest Tool",
+  "config.jade.plugin_bitsandbalance.step_name": "Step: Display Name",
+  "config.jade.plugin_bitsandbalance.quad_step_name": "Quad Step: Display Name",
+  "config.jade.plugin_bitsandbalance.quad_step_harvest_tool": "Quad Step: Harvest Tool",
+  "config.jade.plugin_bitsandbalance.vertical_step_name": "Vertical Step: Display Name",
+  "config.jade.plugin_bitsandbalance.quad_vertical_step_name": "Quad Vertical Step: Display Name",
+  "config.jade.plugin_bitsandbalance.quad_vertical_step_harvest_tool": "Quad Vertical Step: Harvest Tool",
+  "config.jade.plugin_bitsandbalance.colored_block_tint": "Colored Block Tint",
+  "config.jade.plugin_bitsandbalance.dyed_wool_name": "Dyed Wool: Display Name",
+  "config.jade.plugin_bitsandbalance.dyed_carpet_name": "Dyed Carpet: Display Name",
+  "config.jade.plugin_bitsandbalance.dyed_bed_name": "Dyed Bed: Display Name",
+  "config.jade.plugin_bitsandbalance.dyed_banner_name": "Dyed Banner: Display Name"
+}

@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "bitsandbalance:block/tuff_redstone_ore"
+    },
+    "lit=true": {
+      "model": "bitsandbalance:block/tuff_redstone_ore"
+    }
+  }
+}
+

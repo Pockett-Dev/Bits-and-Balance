@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "bitsandbalance:block/quad_vertical_step"
+      }
+    }
+  ]
+}

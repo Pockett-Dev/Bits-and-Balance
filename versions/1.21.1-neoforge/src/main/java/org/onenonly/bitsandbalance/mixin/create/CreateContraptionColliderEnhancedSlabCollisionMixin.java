@@ -1,0 +1,39 @@
+package org.onenonly.bitsandbalance.mixin.create;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.onenonly.bitsandbalance.common.mechanics.EnhancedSlabCreateCompat;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+@Pseudo
+@Mixin(targets = "com.simibubi.create.content.contraptions.ContraptionCollider", remap = false)
+public abstract class CreateContraptionColliderEnhancedSlabCollisionMixin {
+    @Redirect(
+            method = "getPotentiallyCollidedShapes",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/state/BlockState;getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"
+            ),
+            remap = false,
+            require = 1
+    )
+    private static VoxelShape bitsandbalance$useStoredQuadCollisionShape(BlockState state,
+                                                                         BlockGetter blockGetter,
+                                                                         BlockPos pos,
+                                                                         Level level,
+                                                                         @Coerce Object contraption,
+                                                                         AABB bounds,
+                                                                         Shapes.DoubleLineConsumer consumer) {
+        VoxelShape contraptionShape = EnhancedSlabCreateCompat.getContraptionCollisionShape(contraption, blockGetter, pos, state);
+        return contraptionShape.isEmpty() ? state.getCollisionShape(blockGetter, pos) : contraptionShape;
+    }
+}

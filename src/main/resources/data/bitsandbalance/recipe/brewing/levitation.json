@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:brewing",
+  "input": "minecraft:slow_falling",
+  "reagent": "minecraft:shulker_shell",
+  "output": "bitsandbalance:levitation"
+}

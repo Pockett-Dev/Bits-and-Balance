@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "bitsandbalance:mixed_slab",
+    "bitsandbalance:vertical_slab",
+    {
+      "id": "#bitsandbalance:vertical_slabs",
+      "required": false
+    }
+  ]
+}

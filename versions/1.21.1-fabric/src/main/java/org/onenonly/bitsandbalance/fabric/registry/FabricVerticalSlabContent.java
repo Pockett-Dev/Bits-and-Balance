@@ -1,0 +1,244 @@
+package org.onenonly.bitsandbalance.fabric.registry;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import org.onenonly.bitsandbalance.common.BitsAndBalanceCommon;
+import org.onenonly.bitsandbalance.common.blocks.FixedVerticalSlabBlock;
+import org.onenonly.bitsandbalance.common.blocks.VerticalSlabBlock;
+import org.onenonly.bitsandbalance.common.blocks.VerticalSlabCrackProxyBlock;
+import org.onenonly.bitsandbalance.common.items.VerticalSlabBlockItem;
+import org.onenonly.bitsandbalance.common.registry.CommonBlockEntities;
+import org.onenonly.bitsandbalance.common.registry.CommonBlocks;
+import org.onenonly.bitsandbalance.common.registry.DynamicVariantMaterialHelper;
+import org.onenonly.bitsandbalance.common.registry.VerticalSlabDynamicRegistry;
+import org.onenonly.bitsandbalance.fabric.compat.BlockEntityTypeExt;
+import org.onenonly.bitsandbalance.fabric.config.FabricBuildingConfig;
+
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+/** Fabric-only registration for the vertical slab block. */
+public final class FabricVerticalSlabContent {
+    public static final ResourceLocation VERTICAL_SLAB_ID = ResourceLocation.fromNamespaceAndPath(BitsAndBalanceCommon.MOD_ID, "vertical_slab");
+    private static final String NO_DYNAMIC_VERTICAL_SLABS_RESOURCE = "data/bitsandbalance/tags/blocks/no_dynamic_vertical_slabs.json";
+    private static final Set<ResourceLocation> STARTUP_EXCLUDED_VERTICAL_SLAB_IDS = bitsandbalance$loadStartupExcludedVerticalSlabIds();
+
+    public static Block VERTICAL_SLAB;
+
+    private static boolean registered;
+
+    private FabricVerticalSlabContent() {
+    }
+
+    public static void register() {
+        if (registered) return;
+        registered = true;
+
+        // Legacy generic vertical slab block (kept for backwards compatibility).
+        VerticalSlabBlock block = new VerticalSlabBlock(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.STONE)
+                .strength(2.0F, 6.0F)
+                .sound(SoundType.STONE)
+                );
+
+        VERTICAL_SLAB = Registry.register(BuiltInRegistries.BLOCK, VERTICAL_SLAB_ID, block);
+        CommonBlocks.VERTICAL_SLAB = block;
+
+        // Crack proxy block — supplies correct half-prism geometry for the breaking animation.
+        ResourceLocation proxyId = ResourceLocation.fromNamespaceAndPath(BitsAndBalanceCommon.MOD_ID, "vertical_slab_crack_proxy");
+        VerticalSlabCrackProxyBlock proxyBlock = new VerticalSlabCrackProxyBlock(
+                BlockBehaviour.Properties.of()
+                        .noCollission()
+                        .noOcclusion()
+                        .strength(-1.0F)
+                        );
+        Registry.register(BuiltInRegistries.BLOCK, proxyId, proxyBlock);
+        CommonBlocks.VERTICAL_SLAB_CRACK_PROXY = proxyBlock;
+
+        // No BlockItem for the legacy generic vertical slab block.
+
+        if (!FabricBuildingConfig.enhancedSlabsVerticalSlabs) {
+            return;
+        }
+
+        // Dynamic per-slab vertical slab blocks.
+        // - Initial scan catches blocks registered before our initializer runs.
+        for (Block b : BuiltInRegistries.BLOCK) {
+            ResourceLocation slabId = BuiltInRegistries.BLOCK.getKey(b);
+            bitsandbalance$registerForSlabIfNeeded(slabId, b);
+        }
+
+        // - Callback catches blocks registered after our initializer runs.
+        RegistryEntryAddedCallback.event(BuiltInRegistries.BLOCK).register((rawId, id, b) ->
+                bitsandbalance$registerForSlabIfNeeded(id, b)
+        );
+    }
+
+    private static void bitsandbalance$registerForSlabIfNeeded(ResourceLocation slabId, Block slabBlock) {
+        if (slabBlock == null) return;
+        if (!(slabBlock instanceof SlabBlock)) return;
+        if (VerticalSlabDynamicRegistry.getVerticalForSlab(slabBlock) != null) return;
+
+        // Compatibility: allow opting specific slabs out of dynamic vertical slab generation,
+        // and skip generation if another mod already provides a vertical slab with a common id.
+        if (bitsandbalance$shouldSkipDynamicGeneration(slabId, slabBlock)) return;
+
+        ResourceLocation verticalId = VerticalSlabDynamicRegistry.idForSlab(slabId, BitsAndBalanceCommon.MOD_ID);
+        if (BuiltInRegistries.BLOCK.containsKey(verticalId)) {
+            Block existing = BuiltInRegistries.BLOCK.get(verticalId);
+            if (existing != null) {
+                VerticalSlabDynamicRegistry.register(slabBlock, existing);
+                bitsandbalance$tryAddValidBlock(existing);
+                bitsandbalance$tryRegisterVerticalItem(existing, slabBlock);
+            }
+            return;
+        }
+
+        FixedVerticalSlabBlock vertical = bitsandbalance$createDynamicVerticalSlabBlock(slabId, verticalId, slabBlock);
+        Block registeredVertical = bitsandbalance$registerDynamicVerticalSlabBlock(slabId, verticalId, vertical);
+        VerticalSlabDynamicRegistry.register(slabBlock, registeredVertical);
+        bitsandbalance$tryAddValidBlock(registeredVertical);
+        bitsandbalance$tryRegisterVerticalItem(registeredVertical, slabBlock);
+    }
+
+    private static FixedVerticalSlabBlock bitsandbalance$createDynamicVerticalSlabBlock(ResourceLocation slabId, ResourceLocation verticalId, Block slabBlock) {
+        try {
+            return new FixedVerticalSlabBlock(
+                    DynamicVariantMaterialHelper.copySafeDynamicProperties(slabBlock)
+                            ,
+                    slabBlock
+            );
+        } catch (Throwable throwable) {
+            throw new IllegalStateException("Failed to create dynamic vertical slab block " + verticalId + " from slab " + slabId, throwable);
+        }
+    }
+
+    private static Block bitsandbalance$registerDynamicVerticalSlabBlock(ResourceLocation slabId, ResourceLocation verticalId, FixedVerticalSlabBlock vertical) {
+        try {
+            return Registry.register(BuiltInRegistries.BLOCK, verticalId, vertical);
+        } catch (Throwable throwable) {
+            throw new IllegalStateException("Failed to register dynamic vertical slab block " + verticalId + " from slab " + slabId, throwable);
+        }
+    }
+
+    private static boolean bitsandbalance$shouldSkipDynamicGeneration(ResourceLocation slabId, Block slabBlock) {
+        try {
+            if (slabId == null || slabBlock == null) return false;
+
+            if ("minecraft".equals(slabId.getNamespace()) && "petrified_oak_slab".equals(slabId.getPath())) {
+                return true;
+            }
+
+            if (STARTUP_EXCLUDED_VERTICAL_SLAB_IDS.contains(slabId)) {
+                return true;
+            }
+
+            // Data-driven opt-out.
+            try {
+                if (slabBlock.builtInRegistryHolder().is(VerticalSlabDynamicRegistry.NO_DYNAMIC_VERTICAL_SLABS)) {
+                    return true;
+                }
+            } catch (Throwable ignored) {
+            }
+
+            // Heuristic opt-out: if the slab's own namespace already has a common "vertical_<slab>" id,
+            // assume another mod is providing vertical slabs and avoid generating duplicates.
+            String ns = slabId.getNamespace();
+            String path = slabId.getPath();
+
+            ResourceLocation candidate1 = ResourceLocation.fromNamespaceAndPath(ns, "vertical_" + path);
+            if (BuiltInRegistries.BLOCK.containsKey(candidate1)) return true;
+
+            ResourceLocation candidate2 = ResourceLocation.fromNamespaceAndPath(ns, "vertical_" + path.replace('/', '_'));
+            return BuiltInRegistries.BLOCK.containsKey(candidate2);
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    private static Set<ResourceLocation> bitsandbalance$loadStartupExcludedVerticalSlabIds() {
+        try (InputStream input = FabricVerticalSlabContent.class.getClassLoader()
+                .getResourceAsStream(NO_DYNAMIC_VERTICAL_SLABS_RESOURCE)) {
+            if (input == null) return Collections.emptySet();
+
+            JsonObject root = JsonParser.parseReader(new InputStreamReader(input, StandardCharsets.UTF_8))
+                    .getAsJsonObject();
+            JsonArray values = root.getAsJsonArray("values");
+            if (values == null || values.isEmpty()) return Collections.emptySet();
+
+            Set<ResourceLocation> excludedIds = new HashSet<>();
+            for (JsonElement value : values) {
+                ResourceLocation blockId = bitsandbalance$parseExcludedBlockId(value);
+                if (blockId != null) {
+                    excludedIds.add(blockId);
+                }
+            }
+            return Collections.unmodifiableSet(excludedIds);
+        } catch (Throwable ignored) {
+            return Collections.emptySet();
+        }
+    }
+
+    private static ResourceLocation bitsandbalance$parseExcludedBlockId(JsonElement value) {
+        try {
+            if (value == null || value.isJsonNull()) return null;
+
+            if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
+                return ResourceLocation.tryParse(value.getAsString());
+            }
+
+            if (!value.isJsonObject()) return null;
+
+            JsonObject object = value.getAsJsonObject();
+            JsonElement id = object.get("id");
+            if (id == null || !id.isJsonPrimitive() || !id.getAsJsonPrimitive().isString()) {
+                return null;
+            }
+            return ResourceLocation.tryParse(id.getAsString());
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
+    private static void bitsandbalance$tryRegisterVerticalItem(Block verticalBlock, Block sourceSlab) {
+        try {
+            if (!(verticalBlock instanceof FixedVerticalSlabBlock)) return;
+
+            ResourceLocation verticalId = BuiltInRegistries.BLOCK.getKey(verticalBlock);
+            if (verticalId == null) return;
+            if (BuiltInRegistries.ITEM.containsKey(verticalId)) return;
+
+            Item.Properties props = new Item.Properties();
+            Registry.register(BuiltInRegistries.ITEM, verticalId, new VerticalSlabBlockItem(verticalBlock, sourceSlab, props));
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private static void bitsandbalance$tryAddValidBlock(Block verticalBlock) {
+        if (CommonBlockEntities.VERTICAL_SLAB == null) return;
+        try {
+            ((BlockEntityTypeExt) (Object) CommonBlockEntities.VERTICAL_SLAB)
+                    .bitsandbalance$addValidBlocks(verticalBlock);
+        } catch (Throwable ignored) {
+        }
+    }
+}

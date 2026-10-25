@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:potion",
+                  "potion_contents":  {
+                                          "potions":  "minecraft:awkward"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:displacement"
+                                                                    }
+                                  },
+                   "id":  "minecraft:potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:ender_eye"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "displacement"
+                                   }
+                               ]
+}

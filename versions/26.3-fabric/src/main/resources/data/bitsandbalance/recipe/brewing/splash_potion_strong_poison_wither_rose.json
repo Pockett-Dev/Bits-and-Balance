@@ -1,0 +1,26 @@
+﻿{
+    "type":  "minecraft:brewing",
+    "input":  {
+                  "item":  "minecraft:splash_potion",
+                  "potion_contents":  {
+                                          "potions":  "minecraft:strong_poison"
+                                      }
+              },
+    "output":  {
+                   "components":  {
+                                      "minecraft:potion_contents":  {
+                                                                        "potion":  "bitsandbalance:strong_withering"
+                                                                    }
+                                  },
+                   "id":  "minecraft:splash_potion"
+               },
+    "reagent":  {
+                    "item":  "minecraft:wither_rose"
+                },
+    "fabric:load_conditions":  [
+                                   {
+                                       "condition":  "bitsandbalance:custom_brewing_enabled",
+                                       "feature":  "withering"
+                                   }
+                               ]
+}

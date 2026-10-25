@@ -1,0 +1,10 @@
+{
+  "values": {
+    "minecraft:poisonous_potato": {
+      "chance": 0.65
+    },
+    "minecraft:rotten_flesh": {
+      "chance": 0.3
+    }
+  }
+}

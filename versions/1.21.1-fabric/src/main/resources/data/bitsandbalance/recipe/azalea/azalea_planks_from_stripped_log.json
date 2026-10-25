@@ -1,0 +1,12 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "bitsandbalance:stripped_azalea_log"
+                        }
+                    ],
+    "result":  {
+                   "id":  "bitsandbalance:azalea_planks",
+                   "count":  4
+               }
+}

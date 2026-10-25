@@ -1,0 +1,10 @@
+{
+  "sound_event": {
+    "sound_id": "bitsandbalance:music_disc.dog"
+  },
+  "description": {
+    "translate": "jukebox_song.bitsandbalance.dog"
+  },
+  "length_in_seconds": 145.0,
+  "comparator_output": 9
+}

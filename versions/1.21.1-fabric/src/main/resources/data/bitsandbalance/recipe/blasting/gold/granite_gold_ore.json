@@ -1,0 +1,13 @@
+{
+    "type":  "minecraft:blasting",
+    "category":  "misc",
+    "group":  "gold",
+    "ingredient":  {
+                       "item":  "bitsandbalance:granite_gold_ore"
+                   },
+    "result":  {
+                   "id":  "minecraft:gold_ingot"
+               },
+    "experience":  1.2,
+    "cookingtime":  100
+}
