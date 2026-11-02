@@ -1,5 +1,36 @@
 # Changelog
 
+## 2.5.4
+
+- Improved loading times, performance, and Step compatibility.
+
+## 2.5.3
+
+- Reduced unnecessary recipe reloads when loading worlds.
+
+## 2.5.2
+
+- Fixed issue #30
+
+## 2.5.1
+
+- Fixed issue #29: Wood stonecutting recipes can now be disabled.
+- Reduced Fabric JAR size by removing unused packaged slab assets.
+- Reduced coal-vein generation overhead across all versions.
+
+## 2.5.0
+
+- Added Blindness potions brewed via an Ink Sac. These will reduce entities view / targeting distance to 3 blocks when hit by blindness.
+- Added Fortune support for Brushes.
+- Added a reworked brushing loot pool.
+- Fixed brushing XP rewards being higher on older Minecraft versions.
+- Added an item blacklist for Fortune Brush drop bonuses.
+- Replaced individual log-filter toggles with a Blocked Messages list, including our existing filtered messages.
+- Fixed a compatability issue with Flashback.
+- Fixed Upgrade Aquatic Thatch rendering for our slab variants.
+- Fixed an Enhanced Slab mixin conflict warning.
+- Fixed NeoForge mention pings playing in the world instead of only for the mentioned client.
+
 ## 2.4.3
 
 -Fixed issue #28
