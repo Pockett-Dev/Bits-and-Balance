@@ -4,6 +4,11 @@
 
 - Fixed an extra datapack reload during world creation
 
+### 1.21.1 NeoForge
+
+- Fixed Azalea recipes staying enabled.
+- Fixed Step recipes missing after restart.
+
 ## 2.5.4
 
 - Improved loading times, performance, and Step compatibility.
