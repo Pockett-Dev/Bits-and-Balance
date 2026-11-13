@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.5
+
+- Fixed an extra datapack reload during world creation
+
 ## 2.5.4
 
 - Improved loading times, performance, and Step compatibility.
